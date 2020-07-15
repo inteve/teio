@@ -14,36 +14,45 @@ function test($cb)
 }
 
 
-function assertHtml(Html $expected, Html $actual)
+class TeioAssert
 {
-	Assert::same($expected->getName(), $actual->getName());
-	Assert::equal($expected->getAttributes(), $actual->getAttributes());
+	public static function equalDom(Html $expected, Teio\HtmlDom $actual)
+	{
+		self::equalHtml($expected, $actual->getDom());
+	}
 
-	$expectedChildren = $expected->getChildren();
-	$actualChildren = $actual->getChildren();
-	Assert::same(count($expectedChildren), count($actualChildren), 'Wrong count of children');
 
-	foreach ($expectedChildren as $k => $expectedChild) {
-		$actualChild = NULL;
+	public static function equalHtml(Html $expected, Html $actual)
+	{
+		Assert::same($expected->getName(), $actual->getName());
+		Assert::equal($expected->getAttributes(), $actual->getAttributes());
 
-		if (isset($actualChildren[$k])) {
-			$actualChild = $actualChildren[$k];
-		}
+		$expectedChildren = $expected->getChildren();
+		$actualChildren = $actual->getChildren();
+		Assert::same(count($expectedChildren), count($actualChildren), 'Wrong count of children');
 
-		if ($expectedChild instanceof Html) {
-			if ($actualChild instanceof Html) {
-				assertHtml($expectedChild, $actualChild);
+		foreach ($expectedChildren as $k => $expectedChild) {
+			$actualChild = NULL;
 
-			} else {
-				Assert::fail('Children mishmash, expected ' . Html::class . ', ' . (is_object($actualChild) ? get_class($actualChild) : gettype($actualChild)) . ' given.', $actualChild, $expectedChild);
+			if (isset($actualChildren[$k])) {
+				$actualChild = $actualChildren[$k];
 			}
 
-		} else {
-			if ($actualChild instanceof Html) {
-				Assert::fail('Children mishmash', $actualChild, $expectedChild);
+			if ($expectedChild instanceof Html) {
+				if ($actualChild instanceof Html) {
+					self::equalHtml($expectedChild, $actualChild);
+
+				} else {
+					Assert::fail('Children mishmash, expected ' . Html::class . ', ' . (is_object($actualChild) ? get_class($actualChild) : gettype($actualChild)) . ' given.', $actualChild, $expectedChild);
+				}
 
 			} else {
-				Assert::same($expectedChild, $actualChild);
+				if ($actualChild instanceof Html) {
+					Assert::fail('Children mishmash', $actualChild, $expectedChild);
+
+				} else {
+					Assert::same($expectedChild, $actualChild);
+				}
 			}
 		}
 	}

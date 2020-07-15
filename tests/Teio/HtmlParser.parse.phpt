@@ -13,7 +13,7 @@ test(function () use ($parser) {
 	$dom = Html::el();
 	$dom->addHtml('<!-- ahoj -->');
 
-	assertHtml($dom, $parser->parse('<!-- ahoj -->'));
+	TeioAssert::equalDom($dom, $parser->parse('<!-- ahoj -->'));
 });
 
 
@@ -26,5 +26,5 @@ test(function () use ($parser) {
 		->addHtml(Html::el('b')->setText('to'))
 		->addText(" \xc2\xa0 here");
 
-	assertHtml($dom, $parser->parse('<a href="http://example.com">link &gt;<br><b>to</b> &nbsp; here</a>'));
+	TeioAssert::equalDom($dom, $parser->parse('<a href="http://example.com">link &gt;<br><b>to</b> &nbsp; here</a>'));
 });

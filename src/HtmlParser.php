@@ -26,9 +26,7 @@
 				self::TYPE_COMMENT => '#<!--(.*?)-->#is',
 			]);
 
-			$dom = Html::el();
-			$currentElement = $dom;
-			$queue = [];
+			$domBuilder = new HtmlDomBuilder;
 			$lastOffset = 0;
 			// TODO: inline vs block elements
 
@@ -37,13 +35,13 @@
 				$type = $match[1];
 
 				if ($lastOffset < $offset) {
-					$currentElement->addText(html_entity_decode(substr($s, $lastOffset, $offset - $lastOffset), ENT_QUOTES, 'UTF-8'));
+					$domBuilder->addTextNode(substr($s, $lastOffset, $offset - $lastOffset));
 					$lastOffset = $offset;
 				}
 
 				if ($type === self::TYPE_COMMENT) {
 					$comment = $match[2][0];
-					$currentElement->addHtml($comment);
+					$domBuilder->addCommentNode($comment);
 					$lastOffset += strlen($comment);
 
 				} elseif ($type === self::TYPE_TAG) {
@@ -77,24 +75,14 @@
 					}
 
 					if (!$isStart) {
-						if ($currentElement->getName() === $mTag) {
-							array_pop($queue);
-							$currentElement = end($queue);
-
-							if (!($currentElement instanceof Html)) {
-								$currentElement = $dom;
-							}
-						}
+						$domBuilder->endNode($mTag);
 
 					} else {
 						if ($isEmpty) {
-							$currentElement->addHtml(Html::el($mTag));
+							$domBuilder->addEmptyNode($mTag);
 
 						} else {
-							$el = Html::el($mTag . ' ' . $mAttr);
-							$currentElement->addHtml($el);
-							$queue[] = $el;
-							$currentElement = $el;
+							$domBuilder->startNode($mTag, $mAttr);
 						}
 					}
 
@@ -106,7 +94,7 @@
 				}
 			}
 
-			return $dom;
+			return $domBuilder->toDom();
 		}
 
 
