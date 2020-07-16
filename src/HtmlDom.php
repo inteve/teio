@@ -121,6 +121,10 @@
 				}
 
 				foreach ($childrenToStack as $index => $childToStack) {
+					if (!$childToStack->count()) {
+						continue;
+					}
+
 					$childPath = $path;
 
 					if ($childToStack->getName() !== NULL) {
