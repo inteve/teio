@@ -19,6 +19,12 @@ test(function () {
 		'handler3' => function ($name, array $args) {
 			return Html::el('div')->class('handler-3')->setText($name);
 		},
+		'nullHandler' => function ($name, array $args) {
+			return NULL;
+		},
+		'textHandler' => function ($name, array $args) {
+			return "<$name>";
+		},
 	]);
 	TeioAssert::checkModuleOutput('ScriptModule/basic', $module);
 });

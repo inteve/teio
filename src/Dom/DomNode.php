@@ -283,6 +283,15 @@
 		}
 
 
+		public function replaceByHtml($html)
+		{
+			$this->node = $html;
+			$this->type = ($html instanceof Html) ? self::TYPE_HTML : self::TYPE_HTML_STRING;
+			$this->getParent()->replaceChild($this->index, $this->node);
+			return $this;
+		}
+
+
 		/**
 		 * @return self[]
 		 */
@@ -316,6 +325,12 @@
 			}
 
 			return $result;
+		}
+
+
+		private function replaceChild($index, $child)
+		{
+			$this->getHtmlNode()->insert($index, $child, TRUE);
 		}
 
 
