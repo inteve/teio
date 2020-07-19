@@ -292,6 +292,51 @@
 		}
 
 
+		public function moveUp()
+		{
+			$parent = $this->getParent();
+
+			if ($parent->isRoot()) {
+				return;
+			}
+
+			$parentParent = $parent->getParent();
+			$parentParentNode = $parentParent->node;
+			$parentNode = $parent->node;
+			$parentChildren = $parentNode->getChildren();
+			$first = array_slice($parentChildren, 0, $this->index);
+			$second = array_slice($parentChildren, $this->index + 1);
+
+			$parentIndex = $parent->index;
+			$parentNode->removeChildren();
+			$secondParentNode = clone $parentNode;
+			$replace = TRUE;
+
+			if (!empty($first)) {
+				foreach ($first as $child) {
+					$parentNode->addHtml($child);
+				}
+
+				$parentParentNode->insert($parentIndex, $parentNode, $replace);
+				$replace = FALSE;
+				$parentIndex++;
+			}
+
+			$parentParentNode->insert($parentIndex, $this->node, $replace);
+			$parentIndex++;
+
+			if (!empty($second)) {
+				foreach ($second as $child) {
+					$secondParentNode->addHtml($child);
+				}
+
+				$parentParentNode->insert($parentIndex, $secondParentNode, FALSE);
+			}
+
+			$this->parent = $parentParent;
+		}
+
+
 		/**
 		 * @return self[]
 		 */
