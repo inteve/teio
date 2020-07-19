@@ -27,14 +27,16 @@
 		/**
 		 * @return bool
 		 */
-		public function matchPath(DomPath $path)
+		public function matchNode(DomNode $node)
 		{
-			if ($path->isRoot() || empty($this->parts)) {
+			if (!$node->isElement() || empty($this->parts)) {
 				return FALSE;
 			}
 
 			$selectorParts = $this->parts;
-			$pathParts = $path->getParts();
+			$pathParts = $node->getParents();
+			array_shift($pathParts); // remove root
+			$pathParts[] = $node;
 
 			$selectorPart = self::fetch($selectorParts);
 			$pathPart = self::fetch($pathParts);
@@ -75,12 +77,12 @@
 		}
 
 
-		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, DomPathPart $pathPart = NULL)
+		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, DomNode $node = NULL)
 		{
-			if ($selectorPart === NULL || $pathPart === NULL) {
+			if ($selectorPart === NULL || $node === NULL) {
 				return FALSE;
 			}
 
-			return $selectorPart->matchPathPart($pathPart);
+			return $selectorPart->matchNode($node);
 		}
 	}

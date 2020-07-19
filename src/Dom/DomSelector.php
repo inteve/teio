@@ -18,10 +18,14 @@
 		/**
 		 * @return bool
 		 */
-		public function matchPath(DomPath $path)
+		public function matchNode(DomNode $node)
 		{
 			foreach ($this->groups as $group) {
-				if ($group->matchPath($path)) {
+				if (!$node->isElement()) {
+					continue;
+				}
+
+				if ($group->matchNode($node)) {
 					return TRUE;
 				}
 			}

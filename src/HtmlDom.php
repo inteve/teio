@@ -3,6 +3,7 @@
 	namespace Teio;
 
 	use Nette\Utils\Html;
+	use Teio\Dom\DomNode;
 
 
 	class HtmlDom
@@ -49,17 +50,9 @@
 			$selectorParser = $this->getSelectorParser();
 			$selector = $selectorParser->parse($selector);
 
-			$this->walk(function ($child, Dom\DomPath $path = NULL) use (&$result, $selector) {
-				if (!($child instanceof Html)) {
-					return;
-				}
-
-				if ($child->getName() === NULL) {
-					return;
-				}
-
-				if ($selector->matchPath($path)) {
-					$result[] = $child;
+			$this->walk(function (Dom\DomNode $node) use (&$result, $selector) {
+				if ($selector->matchNode($node)) {
+					$result[] = $node;
 				}
 			});
 
@@ -68,15 +61,15 @@
 
 
 		/**
-		 * @return string[]
+		 * @return DomNode[]
 		 */
 		public function findTextNodes()
 		{
 			$result = [];
 
-			$this->walk(function (&$child) use (&$result) {
-				if (is_string($child) && strpos($child, '<') === FALSE) {
-					$result[] = self::toText($child);
+			$this->walk(function (DomNode $node) use (&$result) {
+				if ($node->isText()) {
+					$result[] = $node;
 				}
 			});
 
@@ -87,51 +80,19 @@
 		public function walk(callable $cb)
 		{
 			$stack = [];
-			$stack[] = [$this->dom, Dom\DomPath::root()];
+			$stack[] = Dom\DomNode::root($this->dom);
 
 			while (!empty($stack)) {
-				$item = array_shift($stack);
-				$element = $item[0];
-				$path = $item[1];
+				$node = array_shift($stack);
 
-				$children = $element->getChildren();
-				$childrenToStack = [];
-				$index = 0;
-				$count = 0;
-
-				foreach ($children as $child) {
-					if ($child instanceof Html) {
-						$count++;
-					}
+				foreach ($node->getChildren() as $child) {
+					$cb($child);
 				}
 
-				foreach ($children as $child) {
-					$childPath = NULL;
-
-					if ($child instanceof Html) {
-						$childPath = Dom\DomPath::append($path, $child, $index, ($index + 1) === $count);
-						$index++;
+				foreach ($node->getChildren() as $child) { // refresh positions after updates
+					if ($child->isHtml() && $child->hasChildren()) {
+						$stack[] = $child;
 					}
-
-					$cb($child, $childPath);
-
-					if ($child instanceof Html) {
-						$childrenToStack[] = $child;
-					}
-				}
-
-				foreach ($childrenToStack as $index => $childToStack) {
-					if (!$childToStack->count()) {
-						continue;
-					}
-
-					$childPath = $path;
-
-					if ($childToStack->getName() !== NULL) {
-						$childPath = Dom\DomPath::append($path, $childToStack, $index, ($index + 1) === count($childrenToStack));
-					}
-
-					$stack[] = [$childToStack, $childPath];
 				}
 			}
 		}
@@ -144,15 +105,5 @@
 			}
 
 			return $this->selectorParser;
-		}
-
-
-		/**
-		 * @param  string
-		 * @return string
-		 */
-		public static function toText($html)
-		{
-			return html_entity_decode(strip_tags($html), ENT_QUOTES, 'UTF-8');
 		}
 	}

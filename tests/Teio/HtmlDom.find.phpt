@@ -21,15 +21,21 @@ $dom = $parser->parse('
 
 
 test(function () use ($dom) {
-	Assert::equal([
-		Html::el('b')->setText('to'),
-	], $dom->find('b'));
+	$nodes = $dom->find('b');
+	Assert::same(1, count($nodes));
+
+	Assert::same('b', $nodes[0]->getName());
+	Assert::same('to', $nodes[0]->getText());
 });
 
 
 test(function () use ($dom) {
-	Assert::equal([
-		Html::el('td')->setText('First'),
-		Html::el('em')->setText('Third'),
-	], $dom->find('.row :first-child'));
+	$nodes = $dom->find('.row :first-child');
+	Assert::same(2, count($nodes));
+
+	Assert::same('td', $nodes[0]->getName());
+	Assert::same('First', $nodes[0]->getText());
+
+	Assert::same('em', $nodes[1]->getName());
+	Assert::same('Third', $nodes[1]->getText());
 });

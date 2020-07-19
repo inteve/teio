@@ -4,6 +4,7 @@
 
 	use Nette\Utils\Html;
 	use Teio\IModule;
+	use Teio\Dom\DomNode;
 	use Teio\HtmlDom;
 
 
@@ -21,18 +22,18 @@
 
 		public function process(HtmlDom $dom)
 		{
-			$dom->walk(function ($child) {
-				if ($child instanceof Html) {
-					$tagName = strtolower($child->getName());
+			$dom->walk(function (DomNode $node) {
+				if ($node->isElement()) {
+					$tagName = strtolower($node->getName());
 
 					if (!isset($this->enabledTags[$tagName]) || $this->enabledTags[$tagName] === FALSE) {
-						$child->setName(NULL);
-						$child->attrs = [];
+						$node->setName(NULL);
+						$node->setAttributes([]);
 
 					} elseif (is_array($this->enabledTags[$tagName])) { // attrs whitelist
-						foreach ($child->attrs as $attr => $value) {
+						foreach ($node->getAttributes() as $attr => $value) {
 							if (!in_array($attr, $this->enabledTags[$tagName], TRUE)) {
-								$child->removeAttribute($attr);
+								$node->removeAttribute($attr);
 							}
 						}
 					}

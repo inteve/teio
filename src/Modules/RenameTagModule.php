@@ -3,6 +3,7 @@
 	namespace Teio\Modules;
 
 	use Nette\Utils\Html;
+	use Teio\Dom\DomNode;
 	use Teio\IModule;
 	use Teio\HtmlDom;
 
@@ -21,12 +22,12 @@
 
 		public function process(HtmlDom $dom)
 		{
-			$dom->walk(function ($child) {
-				if ($child instanceof Html) {
-					$tagName = strtolower($child->getName());
+			$dom->walk(function (DomNode $node) {
+				if ($node->isElement()) {
+					$tagName = strtolower($node->getName());
 
 					if (isset($this->replacements[$tagName])) {
-						$child->setName($this->replacements[$tagName]);
+						$node->setName($this->replacements[$tagName]);
 					}
 				}
 			});

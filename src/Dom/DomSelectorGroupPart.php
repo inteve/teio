@@ -81,33 +81,33 @@
 		/**
 		 * @return bool
 		 */
-		public function matchPathPart(DomPathPart $pathPart)
+		public function matchNode(DomNode $node)
 		{
-			if (!$pathPart->isElement()) {
+			if (!$node->isElement()) {
 				return FALSE;
 			}
 
-			if ($this->tag !== NULL && !$pathPart->isTag($this->tag)) {
+			if ($this->tag !== NULL && $node->getName() !== $this->tag) {
 				return FALSE;
 			}
 
 			foreach ($this->ids as $id) {
-				if (!$pathPart->hasId($id)) {
+				if (!$node->hasAttribute('id') || $node->getAttribute('id') !== $id) {
 					return FALSE;
 				}
 			}
 
 			foreach ($this->classes as $class) {
-				if (!$pathPart->hasClass($class)) {
+				if (!$node->hasClass($class)) {
 					return FALSE;
 				}
 			}
 
-			if ($this->firstPosition && !$pathPart->isFirst()) {
+			if ($this->firstPosition && !$node->isFirst()) {
 				return FALSE;
 			}
 
-			if ($this->lastPosition && !$pathPart->isLast()) {
+			if ($this->lastPosition && !$node->isLast()) {
 				return FALSE;
 			}
 

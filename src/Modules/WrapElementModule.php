@@ -25,11 +25,7 @@
 				$nodes = $dom->find($selector);
 
 				foreach ($nodes as $node) {
-					$original = clone $node;
-					$wrapElement = Html::el($wrapper);
-					$node->setName($wrapElement->getName());
-					$node->attrs = $wrapElement->attrs;
-					$node->setHtml($original);
+					$node->wrapBy(Html::el($wrapper));
 				}
 			}
 		}

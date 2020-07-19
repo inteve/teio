@@ -58,6 +58,18 @@ class TeioAssert
 	}
 
 
+	public static function sameNodeText(array $expected, array $actualNodes)
+	{
+		$actual = [];
+
+		foreach ($actualNodes as $actualNode) {
+			$actual[] = $actualNode->getText();
+		}
+
+		Assert::same($expected, $actual);
+	}
+
+
 	public static function checkModuleOutput($fixture, Teio\IModule $module)
 	{
 		$sourceFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.source.html';
