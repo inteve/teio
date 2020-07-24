@@ -41,21 +41,18 @@
 
 		/**
 		 * @param  string  CSS selector
-		 * @return Html[]
+		 * @return void
 		 */
-		public function find($selector)
+		public function find($selector, callable $cb)
 		{
-			$result = [];
 			$selectorParser = $this->getSelectorParser();
 			$selector = $selectorParser->parse($selector);
 
-			$this->walk(function (DomNode $node) use (&$result, $selector) {
+			$this->walk(function (DomNode $node) use ($cb, $selector) {
 				if ($selector->matchNode($node)) {
-					$result[] = $node;
+					$cb($node);
 				}
 			});
-
-			return $result;
 		}
 
 

@@ -21,7 +21,10 @@ $dom = $parser->parse('
 
 
 test(function () use ($dom) {
-	$nodes = $dom->find('b');
+	$nodes = [];
+	$dom->find('b', function ($node) use (&$nodes) {
+		$nodes[] = $node;
+	});
 	Assert::same(1, count($nodes));
 
 	Assert::same('b', $nodes[0]->getName());
@@ -30,7 +33,10 @@ test(function () use ($dom) {
 
 
 test(function () use ($dom) {
-	$nodes = $dom->find('.row :first-child');
+	$nodes = [];
+	$dom->find('.row :first-child', function ($node) use (&$nodes) {
+		$nodes[] = $node;
+	});
 	Assert::same(2, count($nodes));
 
 	Assert::same('td', $nodes[0]->getName());
