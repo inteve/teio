@@ -12,9 +12,6 @@
 		const TYPE_TEXT = 1;
 		const TYPE_HTML_STRING = 2;
 
-		/** @var int|NULL */
-		private $index;
-
 		/** @var Html|string */
 		private $node;
 
@@ -24,6 +21,9 @@
 		/** @var int */
 		private $type;
 
+		/** @var DomNode|NULL */
+		private $previousNode;
+
 		/** @var int|NULL */
 		private $position;
 
@@ -32,13 +32,10 @@
 
 
 		/**
-		 * @param  int|NULL $index
 		 * @param  bool $isLast
 		 */
-		public function __construct($index, $node, DomNode $parent = NULL, $position, $isLast)
+		public function __construct($node, DomNode $parent = NULL, DomNode $previousNode = NULL, $position, $isLast)
 		{
-			$this->index = $index;
-
 			if ($node instanceof Html) {
 				$this->type = self::TYPE_HTML;
 				$this->node = $node;
@@ -58,6 +55,7 @@
 			}
 
 			$this->parent = $parent;
+			$this->previousNode = $previousNode;
 			$this->position = $position;
 			$this->isLast = $isLast;
 		}
@@ -287,7 +285,7 @@
 		{
 			$this->node = $html;
 			$this->type = ($html instanceof Html) ? self::TYPE_HTML : self::TYPE_HTML_STRING;
-			$this->getParent()->replaceChild($this->index, $this->node);
+			$this->getParent()->replaceChild($this->getIndex(), $this->node);
 			return $this;
 		}
 
@@ -304,10 +302,10 @@
 			$parentParentNode = $parentParent->node;
 			$parentNode = $parent->node;
 			$parentChildren = $parentNode->getChildren();
-			$first = array_slice($parentChildren, 0, $this->index);
-			$second = array_slice($parentChildren, $this->index + 1);
+			$first = array_slice($parentChildren, 0, $this->getIndex());
+			$second = array_slice($parentChildren, $this->getIndex() + 1);
 
-			$parentIndex = $parent->index;
+			$parentIndex = $parent->getIndex();
 			$parentNode->removeChildren();
 			$secondParentNode = clone $parentNode;
 			$replace = TRUE;
@@ -334,6 +332,7 @@
 			}
 
 			$this->parent = $parentParent;
+			$this->previousNode = $parent;
 		}
 
 
@@ -354,6 +353,7 @@
 
 			$result = [];
 			$position = 0;
+			$previousNode = NULL;
 
 			foreach ($children as $index => $child) {
 				$childPosition = NULL;
@@ -362,7 +362,7 @@
 					$childPosition = $position;
 				}
 
-				$result[] = new self($index, $child, $this, $childPosition, ($position + 1) === $count);
+				$previousNode = $result[] = new self($child, $this, $previousNode, $childPosition, ($position + 1) === $count);
 
 				if ($child instanceof Html) {
 					$position++;
@@ -376,6 +376,16 @@
 		private function replaceChild($index, $child)
 		{
 			$this->getHtmlNode()->insert($index, $child, TRUE);
+		}
+
+
+		private function getIndex()
+		{
+			if ($this->previousNode === NULL) {
+				return 0;
+			}
+
+			return $this->previousNode->getIndex() + 1;
 		}
 
 
@@ -415,7 +425,7 @@
 				throw new \Teio\InvalidArgumentException('Root node attributes must be empty.');
 			}
 
-			return new self(NULL, $node, NULL, NULL, FALSE);
+			return new self($node, NULL, NULL, NULL, FALSE);
 		}
 
 
