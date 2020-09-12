@@ -14,6 +14,10 @@
 
 		public function __construct(array $nodes)
 		{
+			if (empty($nodes)) {
+				throw new \Teio\InvalidArgumentException('Nodes cannot be empty.');
+			}
+
 			$this->nodes = $nodes;
 		}
 
