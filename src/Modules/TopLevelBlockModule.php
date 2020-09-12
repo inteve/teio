@@ -24,9 +24,7 @@
 		{
 			foreach ($this->blocks as $selector) {
 				$nodes = $dom->find($selector, function (Node $node) {
-					// while (!$node->getParent()->isRoot()) {
-						$node->moveUp(NULL);
-					// }
+					$node->moveToRoot();
 				});
 			}
 		}
