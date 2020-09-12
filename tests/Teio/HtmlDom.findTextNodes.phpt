@@ -12,7 +12,7 @@ $dom = $parser->parse('<a href="http://example.com">link &gt;<br><b>to</b> &nbsp
 test(function () use ($dom) {
 	TeioAssert::sameNodeText([
 		'link >',
-		" \xc2\xa0 here",
 		'to',
+		" \xc2\xa0 here",
 	], $dom);
 });
