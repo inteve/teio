@@ -38,10 +38,7 @@ test(function () use ($dom) {
 				$node->moveUp(1);
 
 			} elseif ($node->getName() === 'a31') {
-				$node->moveUp(NULL);
-
-			} elseif ($node->getName() === 'b') {
-				$node->moveUp(1000);
+				$node->moveToRoot();
 			}
 		}
 	});

@@ -29,9 +29,6 @@
 		/** @var bool */
 		private $isLast;
 
-		/** @var int|TRUE|NULL */
-		private $moveUpLevels = NULL;
-
 
 		/**
 		 * @param  bool $isLast
@@ -335,42 +332,22 @@
 		}
 
 
-		public function moveUp($levels)
+		public function moveUp($levels = 1)
 		{
-			if ($levels === NULL) {
-				$this->moveUpLevels = TRUE;
-
-			} elseif ($levels > 0) {
-				$this->moveUpLevels = $levels;
-
-			} else {
-				throw new \Teio\InvalidArgumentException('Invalid level.');
-			}
-
+			$this->parents->moveUp($levels);
 			return $this;
 		}
 
 
-		public function isMovedUp()
+		public function moveToRoot()
 		{
-			return (bool) $this->moveUpLevels;
+			$this->parents->moveToRoot();
 		}
 
 
-		/**
-		 * @return int|NULL
-		 */
-		public function getMoveUpLevels()
+		public function canMoveUp()
 		{
-			if (!$this->isMovedUp()) {
-				throw new \Teio\InvalidStateException('Node is not moved up.');
-			}
-
-			if ($this->moveUpLevels === TRUE) {
-				return NULL;
-			}
-
-			return $this->moveUpLevels;
+			return $this->parents->canMoveUp();
 		}
 
 

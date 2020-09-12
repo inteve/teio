@@ -186,6 +186,13 @@
 		}
 
 
+		public function moveToRoot()
+		{
+			$this->getDomNode()->moveToRoot();
+			return $this;
+		}
+
+
 		/**
 		 * @return void
 		 * @internal

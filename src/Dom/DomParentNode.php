@@ -72,4 +72,23 @@
 		{
 			return $this->isLast;
 		}
+
+
+		/**
+		 * @param  Html|string
+		 * @return void
+		 */
+		public function appendChild($html)
+		{
+			$this->node->addHtml($html);
+		}
+
+
+		/**
+		 * @return Html
+		 */
+		public function cloneTag()
+		{
+			return Html::el($this->node->getName(), $this->node->attrs);
+		}
 	}

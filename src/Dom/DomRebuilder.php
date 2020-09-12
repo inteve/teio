@@ -28,35 +28,20 @@
 		public function rebuild()
 		{
 			$this->stack = [];
-			$parents = [];
-			$lastLevel = 0;
 			$cb = $this->cb;
 
-			$this->addChildrenFrom($this->dom, $lastLevel + 1);
+			$this->addChildrenFrom($this->dom, 1);
 			$this->dom->removeChildren();
-			$parents[] = [
-				'node' => new DomParentNode($this->dom, 0, TRUE),
-				'element' => $this->dom,
-			];
+			$parents = new DomParentNodes(new DomParentNode($this->dom, 0, TRUE));
 
 			while (!empty($this->stack)) {
 				$item = array_shift($this->stack);
 				$element = $item['element'];
 				$level = $item['level'];
 
-				if ($level < 1) {
-					throw new \Teio\InvalidStateException('Level must be 1 or higher.');
-				}
+				$parents->gotoLevel($level);
 
-				$parents = array_slice($parents, 0, $level);
-
-				if (count($parents) !== $level || empty($parents)) {
-					throw new \Teio\InvalidStateException('Invalid leveling.');
-				}
-
-				$parent = end($parents);
-				$parentElement = $parent['element'];
-				$node = new DomNode($element, new DomParentNodes(array_slice($parents, 1)), $item['position'], $item['isLast']);
+				$node = new DomNode($element, $parents, $item['position'], $item['isLast']);
 				$cb($node);
 
 				if ($node->isRemoved()) {
@@ -64,47 +49,14 @@
 				}
 
 				$newElement = $node->getNode();
-
-				if ($node->isMovedUp()) {
-					$moveUpLevels = $node->getMoveUpLevels();
-
-					if ($moveUpLevels === NULL) {
-						$moveUpLevels = count($parents) - 1;
-					}
-
-					$moveUpLevels = min($moveUpLevels, count($parents) - 1);
-					$endedParents = array_slice($parents, count($parents) - $moveUpLevels);
-					$parents = array_slice($parents, 0, count($parents) - $moveUpLevels);
-					$parent = end($parents);
-					$parentElement = $parent['element'];
-					$parentElement->addHtml($newElement);
-
-					foreach ($endedParents as $endedParent) {
-						$newParent = clone $endedParent['element'];
-						$newParent->removeChildren();
-						$parentElement->addHtml($newParent);
-
-						$parents[] = [
-							'node' => new DomParentNode($newParent, 0, FALSE), // TODO
-							'element' => $newParent,
-						];
-
-						$parentElement = $newParent;
-					}
-
-				} else {
-					$parentElement->addHtml($newElement);
-				}
-
+				$parents->getLastNode()->appendChild($newElement);
+				$parents->recreateEndedNodes();
 				$node->detach();
 
 				if (($newElement instanceof Html) && count($newElement) > 0) {
 					$this->addChildrenFrom($newElement, $level + 1);
-					$parents[] = [
-						'node' => new DomParentNode($newElement, $item['position'], $item['isLast']),
-						'element' => $newElement,
-					];
 					$newElement->removeChildren();
+					$parents->addNode(new DomParentNode($newElement, $item['position'], $item['isLast']));
 				}
 			}
 		}
