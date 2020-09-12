@@ -1,7 +1,7 @@
 <?php
 
 use Nette\Utils\Html;
-use Teio\Dom\DomNode;
+use Teio\Dom\Dom;
 use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
@@ -13,52 +13,78 @@ test(function () {
 	$dom->addHtml(Html::el('a')->href('http://example.com')->class('external-link')->setText('link'));
 	$dom->addText('<b>hello</b>');
 
-	$root = DomNode::root($dom);
-	Assert::true($root->isRoot());
+	$result = [];
+	$root = new Dom($dom);
+	$root->walk(function (Teio\Dom\Node $node) use (&$result) {
+		$result[] = [
+			'isHtml' => $node->isHtml(),
+			'isText' => $node->isText(),
+			'isElement' => $node->isElement(),
+			'hasChildren' => $node->isHtml() ? $node->hasChildren() : NULL,
+			'text' => $node->getText(),
+			'attributes' => $node->isHtml() ? $node->getAttributes() : NULL,
+			'hasClass' => [
+				'external-link' => $node->isHtml() ? $node->hasClass('external-link') : NULL,
+				'css-class' => $node->isHtml() ? $node->hasClass('css-class') : NULL,
+			],
+		];
+	});
 
-	$children = $root->getChildren();
-
-	// HTML string
-	Assert::false($children[0]->isHtml());
-	Assert::false($children[0]->isText());
-	Assert::false($children[0]->isRoot());
-	Assert::false($children[0]->isElement());
-	Assert::false($children[0]->hasPosition());
-	Assert::same('hello', $children[0]->getText());
-
-	// HTML instance
-	Assert::true($children[1]->isHtml());
-	Assert::false($children[1]->isText());
-	Assert::false($children[1]->isRoot());
-	Assert::true($children[1]->isElement());
-	Assert::true($children[1]->hasPosition());
-	Assert::true($children[1]->isFirst());
-	Assert::true($children[1]->isLast());
-	Assert::true($children[1]->hasChildren());
-	Assert::same(1, count($children[1]->getChildren()));
-	Assert::same('a', $children[1]->getName());
 	Assert::same([
-		'href' => 'http://example.com',
-		'class' => 'external-link',
-	], $children[1]->getAttributes());
-	Assert::true($children[1]->hasClass('external-link'));
-	Assert::false($children[1]->hasClass('css-class'));
-
-	// text node
-	Assert::false($children[2]->isHtml());
-	Assert::true($children[2]->isText());
-	Assert::false($children[2]->isRoot());
-	Assert::false($children[2]->isElement());
-	Assert::false($children[2]->hasPosition());
-	Assert::same('<b>hello</b>', $children[2]->getText());
-
-	// parents
-	$content = $children[1]->getChildren();
-	$text = $content[0];
-	$parents = $text->getParents();
-	Assert::same(2, count($parents)); // root + <a>
-
-	Assert::true($parents[0]->isRoot());
-	Assert::true($parents[1]->isElement());
-	Assert::same('a', $parents[1]->getName());
+		// HTML string
+		[
+			'isHtml' => FALSE,
+			'isText' => FALSE,
+			'isElement' => FALSE,
+			'hasChildren' => NULL,
+			'text' => 'hello',
+			'attributes' => NULL,
+			'hasClass' => [
+				'external-link' => NULL,
+				'css-class' => NULL,
+			],
+		],
+		// HTML instance
+		[
+			'isHtml' => TRUE,
+			'isText' => FALSE,
+			'isElement' => TRUE,
+			'hasChildren' => TRUE,
+			'text' => 'link',
+			'attributes' => [
+				'href' => 'http://example.com',
+				'class' => 'external-link',
+			],
+			'hasClass' => [
+				'external-link' => TRUE,
+				'css-class' => FALSE,
+			],
+		],
+		// text node
+		[
+			'isHtml' => FALSE,
+			'isText' => TRUE,
+			'isElement' => FALSE,
+			'hasChildren' => NULL,
+			'text' => 'link',
+			'attributes' => NULL,
+			'hasClass' => [
+				'external-link' => NULL,
+				'css-class' => NULL,
+			],
+		],
+		// text node
+		[
+			'isHtml' => FALSE,
+			'isText' => TRUE,
+			'isElement' => FALSE,
+			'hasChildren' => NULL,
+			'text' => '<b>hello</b>',
+			'attributes' => NULL,
+			'hasClass' => [
+				'external-link' => NULL,
+				'css-class' => NULL,
+			],
+		],
+	], $result);
 });
