@@ -17,6 +17,12 @@
 		}
 
 
+		public function remove()
+		{
+			$this->getDomNode()->remove();
+		}
+
+
 		public function isHtml()
 		{
 			return $this->getDomNode()->isHtml();
@@ -145,6 +151,20 @@
 		}
 
 
+		public function setChildren(array $children)
+		{
+			$this->getDomNode()->setChildren($children);
+			return $this;
+		}
+
+
+		public function removeChildren()
+		{
+			$this->getDomNode()->removeChildren();
+			return $this;
+		}
+
+
 		public function wrapBy(Html $wrapper)
 		{
 			$this->getDomNode()->wrapBy($wrapper);
@@ -155,6 +175,13 @@
 		public function replaceByHtml($html)
 		{
 			$this->getDomNode()->replaceByHtml($html);
+			return $this;
+		}
+
+
+		public function moveUp($levels)
+		{
+			$this->getDomNode()->moveUp($levels);
 			return $this;
 		}
 

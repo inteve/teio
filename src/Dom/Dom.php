@@ -50,9 +50,9 @@
 
 			$this->walkDom(function (DomNode $domNode) use ($cb, $selector) {
 				if ($selector->matchNode($domNode)) {
-					// $node = new Node($domNode);
-					$cb($domNode);
-					// $node->detach();
+					$node = new Node($domNode);
+					$cb($node);
+					$node->detach();
 				}
 			});
 		}
@@ -62,9 +62,9 @@
 		{
 			$this->walkDom(function (DomNode $domNode) use ($cb) {
 				if ($domNode->isText()) {
-					// $node = new Node($domNode);
-					$cb($domNode);
-					// $node->detach();
+					$node = new Node($domNode);
+					$cb($node);
+					$node->detach();
 				}
 			});
 		}
@@ -73,7 +73,9 @@
 		public function walk(callable $cb)
 		{
 			$this->walkDom(function (DomNode $domNode) use ($cb) {
-				$cb($domNode);
+				$node = new Node($domNode);
+				$cb($node);
+				$node->detach();
 			});
 		}
 
@@ -81,9 +83,7 @@
 		private function walkDom(callable $cb)
 		{
 			$rebuilder = new DomRebuilder($this->dom, function (DomNode $domNode) use ($cb) {
-				// $node = new Node($domNode);
 				$cb($domNode);
-				// $node->detach();
 			});
 			$rebuilder->rebuild();
 		}
