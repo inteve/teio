@@ -4,7 +4,7 @@
 
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
-	use Teio\Dom\DomNode;
+	use Teio\Dom\Node;
 	use Teio\IModule;
 
 
@@ -23,10 +23,10 @@
 		public function process(Dom $dom)
 		{
 			foreach ($this->blocks as $selector) {
-				$nodes = $dom->find($selector, function (DomNode $node) {
-					while (!$node->getParent()->isRoot()) {
-						$node->moveUp();
-					}
+				$nodes = $dom->find($selector, function (Node $node) {
+					// while (!$node->getParent()->isRoot()) {
+						$node->moveUp(NULL);
+					// }
 				});
 			}
 		}

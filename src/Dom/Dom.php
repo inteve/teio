@@ -48,49 +48,44 @@
 			$selectorParser = $this->getSelectorParser();
 			$selector = $selectorParser->parse($selector);
 
-			$this->walk(function (DomNode $node) use ($cb, $selector) {
-				if ($selector->matchNode($node)) {
-					$cb($node);
+			$this->walkDom(function (DomNode $domNode) use ($cb, $selector) {
+				if ($selector->matchNode($domNode)) {
+					// $node = new Node($domNode);
+					$cb($domNode);
+					// $node->detach();
 				}
 			});
 		}
 
 
-		/**
-		 * @return DomNode[]
-		 */
-		public function findTextNodes()
+		public function findTextNodes(callable $cb)
 		{
-			$result = [];
-
-			$this->walk(function (DomNode $node) use (&$result) {
-				if ($node->isText()) {
-					$result[] = $node;
+			$this->walkDom(function (DomNode $domNode) use ($cb) {
+				if ($domNode->isText()) {
+					// $node = new Node($domNode);
+					$cb($domNode);
+					// $node->detach();
 				}
 			});
-
-			return $result;
 		}
 
 
 		public function walk(callable $cb)
 		{
-			$stack = [];
-			$stack[] = DomNode::root($this->dom);
+			$this->walkDom(function (DomNode $domNode) use ($cb) {
+				$cb($domNode);
+			});
+		}
 
-			while (!empty($stack)) {
-				$node = array_shift($stack);
 
-				foreach ($node->getChildren() as $child) {
-					$cb($child);
-				}
-
-				foreach ($node->getChildren() as $child) { // refresh positions after updates
-					if ($child->isHtml() && $child->hasChildren()) {
-						$stack[] = $child;
-					}
-				}
-			}
+		private function walkDom(callable $cb)
+		{
+			$rebuilder = new DomRebuilder($this->dom, function (DomNode $domNode) use ($cb) {
+				// $node = new Node($domNode);
+				$cb($domNode);
+				// $node->detach();
+			});
+			$rebuilder->rebuild();
 		}
 
 

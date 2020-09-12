@@ -4,7 +4,7 @@
 
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
-	use Teio\Dom\DomNode;
+	use Teio\Dom\Node;
 	use Teio\IModule;
 
 
@@ -23,7 +23,7 @@
 		public function process(Dom $dom)
 		{
 			foreach ($this->wraps as $selector => $wrapper) {
-				$nodes = $dom->find($selector, function (DomNode $node) use ($wrapper) {
+				$nodes = $dom->find($selector, function (Node $node) use ($wrapper) {
 					$node->wrapBy(Html::el($wrapper));
 				});
 			}

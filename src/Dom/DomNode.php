@@ -11,18 +11,17 @@
 		const TYPE_HTML = 0;
 		const TYPE_TEXT = 1;
 		const TYPE_HTML_STRING = 2;
+		const TYPE_DETACHED = 3;
+		const TYPE_REMOVED = 4;
 
 		/** @var Html|string */
 		private $node;
 
-		/** @var DomNode */
-		private $parent;
+		/** @var DomParentNodes|NULL */
+		private $parents;
 
 		/** @var int */
 		private $type;
-
-		/** @var DomNode|NULL */
-		private $previousNode;
 
 		/** @var int|NULL */
 		private $position;
@@ -34,7 +33,7 @@
 		/**
 		 * @param  bool $isLast
 		 */
-		public function __construct($node, DomNode $parent = NULL, DomNode $previousNode = NULL, $position, $isLast)
+		public function __construct($node, DomParentNodes $parents, $position, $isLast)
 		{
 			if ($node instanceof Html) {
 				$this->type = self::TYPE_HTML;
@@ -54,10 +53,34 @@
 				throw new \Teio\InvalidArgumentException("Node must be Html instance or HTML string.");
 			}
 
-			$this->parent = $parent;
-			$this->previousNode = $previousNode;
+			$this->parents = $parents;
 			$this->position = $position;
 			$this->isLast = $isLast;
+		}
+
+
+		/**
+		 * @internal
+		 */
+		public function detach()
+		{
+			$this->node = NULL;
+			$this->type = self::TYPE_DETACHED;
+			$this->parents = NULL;
+		}
+
+
+		public function remove()
+		{
+			$this->node = NULL;
+			$this->type = self::TYPE_REMOVED;
+			$this->parents = NULL;
+		}
+
+
+		public function getNode()
+		{
+			return $this->node;
 		}
 
 
@@ -108,15 +131,15 @@
 		}
 
 
-		public function isRoot()
+		public function isRemoved()
 		{
-			return $this->parent === NULL;
+			return $this->type === self::TYPE_REMOVED;
 		}
 
 
 		public function isElement()
 		{
-			return !$this->isRoot() && $this->isHtml() && $this->hasName();
+			return $this->isHtml() && $this->hasName();
 		}
 
 
@@ -125,7 +148,7 @@
 		 */
 		public function hasName()
 		{
-			return !self::isNameEmpty($this->getElementNode()->getName());
+			return !self::isNameEmpty($this->getHtmlNode()->getName());
 		}
 
 
@@ -134,53 +157,53 @@
 		 */
 		public function getName()
 		{
-			$name = $this->getElementNode()->getName();
+			$name = $this->getHtmlNode()->getName();
 			return !self::isNameEmpty($name) ? $name : NULL;
 		}
 
 
 		public function setName($name)
 		{
-			$this->getElementNode()->setName($name);
+			$this->getHtmlNode()->setName($name);
 			return $this;
 		}
 
 
 		public function hasAttribute($attr)
 		{
-			return isset($this->getElementNode()->attrs[$attr]);
+			return isset($this->getHtmlNode()->attrs[$attr]);
 		}
 
 
 		public function getAttribute($attr)
 		{
-			return $this->getElementNode()->getAttribute($attr);
+			return $this->getHtmlNode()->getAttribute($attr);
 		}
 
 
 		public function setAttribute($attr, $value)
 		{
-			$this->getElementNode()->setAttribute($attr, $value);
+			$this->getHtmlNode()->setAttribute($attr, $value);
 			return $this;
 		}
 
 
 		public function removeAttribute($attr)
 		{
-			$this->getElementNode()->removeAttribute($attr);
+			$this->getHtmlNode()->removeAttribute($attr);
 			return $this;
 		}
 
 
 		public function getAttributes()
 		{
-			return $this->getElementNode()->attrs;
+			return $this->getHtmlNode()->attrs;
 		}
 
 
 		public function setAttributes(array $attrs)
 		{
-			$this->getElementNode()->attrs = $attrs;
+			$this->getHtmlNode()->attrs = $attrs;
 			return $this;
 		}
 
@@ -240,6 +263,17 @@
 		}
 
 
+		public function setChildren(array $children)
+		{
+			$node = $this->getHtmlNode();
+			$node->removeChildren();
+
+			foreach ($children as $child) {
+				$node->addHtml($child);
+			}
+		}
+
+
 		public function hasPosition()
 		{
 			return $this->position !== NULL;
@@ -285,13 +319,14 @@
 		{
 			$this->node = $html;
 			$this->type = ($html instanceof Html) ? self::TYPE_HTML : self::TYPE_HTML_STRING;
-			$this->getParent()->replaceChild($this->getIndex(), $this->node);
+			// $this->getParent()->replaceChild($this->getIndex(), $this->node);
 			return $this;
 		}
 
 
 		public function moveUp()
 		{
+			return;
 			$parent = $this->getParent();
 
 			if ($parent->isRoot()) {
@@ -332,12 +367,11 @@
 			}
 
 			$this->parent = $parentParent;
-			$this->previousNode = $parent;
 		}
 
 
 		/**
-		 * @return self[]
+		 * @return Html[]
 		 */
 		public function getChildren()
 		{
@@ -355,7 +389,7 @@
 			$position = 0;
 			$previousNode = NULL;
 
-			foreach ($children as $index => $child) {
+			foreach ($children as &$child) {
 				$childPosition = NULL;
 
 				if ($child instanceof Html) {
@@ -373,20 +407,20 @@
 		}
 
 
-		private function replaceChild($index, $child)
-		{
-			$this->getHtmlNode()->insert($index, $child, TRUE);
-		}
+		// private function replaceChild($index, $child)
+		// {
+		// 	$this->getHtmlNode()->insert($index, $child, TRUE);
+		// }
 
 
-		private function getIndex()
-		{
-			if ($this->previousNode === NULL) {
-				return 0;
-			}
+		// private function getIndex()
+		// {
+		// 	if ($this->previousNode === NULL) {
+		// 		return 0;
+		// 	}
 
-			return $this->previousNode->getIndex() + 1;
-		}
+		// 	return $this->previousNode->getIndex() + 1;
+		// }
 
 
 		/**
@@ -398,34 +432,7 @@
 				return $this->node;
 			}
 
-			throw new \Teio\InvalidStateException('Node must be instance of Html.' . gettype($this->node));
-		}
-
-
-		/**
-		 * @return Html
-		 */
-		private function getElementNode()
-		{
-			if ($this->parent === NULL) {
-				throw new \Teio\InvalidStateException('This is root, not element.');
-			}
-
-			return $this->getHtmlNode();
-		}
-
-
-		public static function root(Html $node)
-		{
-			if (!self::isNameEmpty($node->getName())) {
-				throw new \Teio\InvalidArgumentException('Root node name must be NULL, "' . $node->getName() . '" given.');
-			}
-
-			if (!empty($node->attrs)) {
-				throw new \Teio\InvalidArgumentException('Root node attributes must be empty.');
-			}
-
-			return new self($node, NULL, NULL, NULL, FALSE);
+			throw new \Teio\InvalidStateException('Node must be instance of Html, ' . gettype($this->node) . ' given.');
 		}
 
 

@@ -14,5 +14,5 @@ test(function () use ($dom) {
 		'link >',
 		" \xc2\xa0 here",
 		'to',
-	], $dom->findTextNodes());
+	], $dom);
 });

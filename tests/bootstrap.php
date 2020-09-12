@@ -58,13 +58,13 @@ class TeioAssert
 	}
 
 
-	public static function sameNodeText(array $expected, array $actualNodes)
+	public static function sameNodeText(array $expected, Teio\Dom\Dom $dom)
 	{
 		$actual = [];
 
-		foreach ($actualNodes as $actualNode) {
-			$actual[] = $actualNode->getText();
-		}
+		$dom->findTextNodes(function (Teio\Dom\Node $node) use (&$actual) {
+			$actual[] = $node->getText();
+		});
 
 		Assert::same($expected, $actual);
 	}

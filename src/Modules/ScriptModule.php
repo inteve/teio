@@ -5,6 +5,7 @@
 	use Nette\Utils\Html;
 	use Nette\Utils\Strings;
 	use Teio\Dom\Dom;
+	use Teio\Dom\Node;
 	use Teio\IModule;
 
 
@@ -22,9 +23,7 @@
 
 		public function process(Dom $dom)
 		{
-			$nodes = $dom->findTextNodes();
-
-			foreach ($nodes as $node) {
+			$nodes = $dom->findTextNodes(function (Node $node) {
 				$newContent = Html::el();
 				$text = $node->getText();
 				$matches = Strings::matchAll($text, '#\{\{((?:[^}]++|[}])+)\}\}()#U', PREG_OFFSET_CAPTURE);
@@ -86,6 +85,6 @@
 				}
 
 				$node->replaceByHtml($newContent);
-			}
+			});
 		}
 	}

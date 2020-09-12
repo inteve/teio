@@ -21,27 +21,24 @@ $dom = $parser->parse('
 
 
 test(function () use ($dom) {
-	$nodes = [];
-	$dom->find('b', function ($node) use (&$nodes) {
-		$nodes[] = $node;
+	$result = [];
+	$dom->find('b', function ($node) use (&$result) {
+		$result[] = [$node->getName(), $node->getText()];
 	});
-	Assert::same(1, count($nodes));
 
-	Assert::same('b', $nodes[0]->getName());
-	Assert::same('to', $nodes[0]->getText());
+	Assert::same([
+		['b', 'to'],
+	], $result);
 });
 
 
 test(function () use ($dom) {
-	$nodes = [];
-	$dom->find('.row :first-child', function ($node) use (&$nodes) {
-		$nodes[] = $node;
+	$result = [];
+	$dom->find('.row :first-child', function ($node) use (&$result) {
+		$result[] = [$node->getName(), $node->getText()];
 	});
-	Assert::same(2, count($nodes));
-
-	Assert::same('td', $nodes[0]->getName());
-	Assert::same('First', $nodes[0]->getText());
-
-	Assert::same('em', $nodes[1]->getName());
-	Assert::same('Third', $nodes[1]->getText());
+	Assert::same([
+		['td', 'First'],
+		['em', 'Third'],
+	], $result);
 });

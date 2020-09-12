@@ -4,7 +4,7 @@
 
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
-	use Teio\Dom\DomNode;
+	use Teio\Dom\Node;
 	use Teio\IModule;
 
 
@@ -22,7 +22,7 @@
 
 		public function process(Dom $dom)
 		{
-			$dom->walk(function (DomNode $node) {
+			$dom->walk(function (Node $node) {
 				if ($node->isElement()) {
 					$tagName = strtolower($node->getName());
 
