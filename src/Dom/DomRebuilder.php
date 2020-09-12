@@ -32,7 +32,7 @@
 
 			$this->addChildrenFrom($this->dom, 1);
 			$this->dom->removeChildren();
-			$parents = new DomParentNodes(new DomParentNode($this->dom, 0, TRUE));
+			$parents = new DomParentNodes(new DomParentNode($this->dom, NULL));
 
 			while (!empty($this->stack)) {
 				$item = array_shift($this->stack);
@@ -40,8 +40,8 @@
 				$level = $item['level'];
 
 				$parents->gotoLevel($level);
-
-				$node = new DomNode($element, $parents, $item['position'], $item['isLast']);
+				$position = $item['position'] !== NULL ? new DomPosition($item['position'], $item['isLast']) : NULL;
+				$node = new DomNode($element, $parents, $position);
 				$cb($node);
 
 				if ($node->isRemoved()) {
@@ -56,7 +56,7 @@
 				if (($newElement instanceof Html) && count($newElement) > 0) {
 					$this->addChildrenFrom($newElement, $level + 1);
 					$newElement->removeChildren();
-					$parents->addNode(new DomParentNode($newElement, $item['position'], $item['isLast']));
+					$parents->addNode(new DomParentNode($newElement, $position));
 				}
 			}
 		}

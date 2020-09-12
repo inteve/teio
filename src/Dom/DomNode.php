@@ -23,17 +23,11 @@
 		/** @var int */
 		private $type;
 
-		/** @var int|NULL */
+		/** @var DomPosition|NULL */
 		private $position;
 
-		/** @var bool */
-		private $isLast;
 
-
-		/**
-		 * @param  bool $isLast
-		 */
-		public function __construct($node, DomParentNodes $parents, $position, $isLast)
+		public function __construct($node, DomParentNodes $parents, DomPosition $position = NULL)
 		{
 			if ($node instanceof Html) {
 				$this->type = self::TYPE_HTML;
@@ -55,7 +49,6 @@
 
 			$this->parents = $parents;
 			$this->position = $position;
-			$this->isLast = $isLast;
 		}
 
 
@@ -295,7 +288,7 @@
 				throw new \Teio\InvalidStateException('Node has not position.');
 			}
 
-			return $this->position === 0;
+			return $this->position->isFirst();
 		}
 
 
@@ -305,7 +298,7 @@
 				throw new \Teio\InvalidStateException('Node has not position.');
 			}
 
-			return $this->isLast;
+			return $this->position->isLast();
 		}
 
 

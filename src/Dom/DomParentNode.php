@@ -11,21 +11,14 @@
 		/** @var Html */
 		private $node;
 
-		/** @var int */
+		/** @var DomPosition|NULL */
 		private $position;
 
-		/** @var bool */
-		private $isLast;
 
-
-		/**
-		 * @param  bool $isLast
-		 */
-		public function __construct(Html $node, $position, $isLast)
+		public function __construct(Html $node, DomPosition $position = NULL)
 		{
 			$this->node = $node;
 			$this->position = $position;
-			$this->isLast = $isLast;
 		}
 
 
@@ -62,15 +55,29 @@
 		}
 
 
+		public function hasPosition()
+		{
+			return $this->position !== NULL;
+		}
+
+
 		public function isFirst()
 		{
-			return $this->position === 0;
+			if (!$this->hasPosition()) {
+				throw new \Teio\InvalidStateException('ParentNode has not position.');
+			}
+
+			return $this->position->isFirst();
 		}
 
 
 		public function isLast()
 		{
-			return $this->isLast;
+			if (!$this->hasPosition()) {
+				throw new \Teio\InvalidStateException('ParentNode has not position.');
+			}
+
+			return $this->position->isLast();
 		}
 
 

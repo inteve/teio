@@ -102,7 +102,7 @@
 			foreach ($this->endedNodes as $endedNode) {
 				$element = $endedNode->cloneTag();
 				$this->getLastNode()->appendChild($element);
-				$this->addNode(new DomParentNode($element, 0, FALSE)); // TODO
+				$this->addNode(new DomParentNode($element, NULL));
 			}
 
 			$this->endedNodes = [];
