@@ -328,7 +328,6 @@
 		{
 			$this->node = $html;
 			$this->type = ($html instanceof Html) ? self::TYPE_HTML : self::TYPE_HTML_STRING;
-			// $this->getParent()->replaceChild($this->getIndex(), $this->node);
 			return $this;
 		}
 
