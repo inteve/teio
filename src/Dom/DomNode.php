@@ -274,6 +274,13 @@
 		}
 
 
+		public function removeChildren()
+		{
+			$this->getHtmlNode()->removeChildren();
+			return $this;
+		}
+
+
 		public function hasPosition()
 		{
 			return $this->position !== NULL;
