@@ -18,7 +18,7 @@
 		/**
 		 * @return bool
 		 */
-		public function matchNode(DomNode $node)
+		public function matchNode(ISelectableNode $node)
 		{
 			foreach ($this->groups as $group) {
 				if (!$node->isElement()) {

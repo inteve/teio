@@ -29,4 +29,40 @@
 		{
 			return htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
+
+
+		/**
+		 * @param  string
+		 * @return bool
+		 */
+		public static function isNameEmpty($name)
+		{
+			return $name === NULL || $name === '';
+		}
+
+
+		/**
+		 * @param  mixed
+		 * @return string
+		 */
+		public static function formatAttributeValue($value)
+		{
+			if (is_array($value)) {
+				$tmp = null;
+				foreach ($value as $k => $v) {
+					if ($v != null) { // intentionally ==, skip nulls & empty string
+						// composite 'style' vs. 'others'
+						$tmp[] = $v === true ? $k : (is_string($k) ? $k . ':' . $v : $v);
+					}
+				}
+
+				if ($tmp === null) {
+					return '';
+				}
+
+				$value = implode(' ', $tmp);
+			}
+
+			return (string) $value;
+		}
 	}

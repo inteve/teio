@@ -6,7 +6,7 @@
 	use Teio\Helpers;
 
 
-	class DomNode
+	class DomNode implements ISelectableNode
 	{
 		const TYPE_HTML = 0;
 		const TYPE_TEXT = 1;
@@ -82,33 +82,20 @@
 		 */
 		public function hasParent()
 		{
-			return $this->parent !== NULL;
+			return $this->parents !== NULL;
 		}
 
 
 		/**
-		 * @return DomNode|NULL
-		 */
-		public function getParent()
-		{
-			return $this->parent;
-		}
-
-
-		/**
-		 * @return DomNode[]
+		 * @return DomParentNode[]
 		 */
 		public function getParents()
 		{
-			$result = [];
-			$child = $this;
-
-			while ($parent = $child->getParent()) {
-				$result[] = $parent;
-				$child = $parent;
+			if ($this->parents === NULL) {
+				throw new \Teio\InvalidStateException('Node has not parents.');
 			}
 
-			return array_reverse($result);
+			return $this->parents->getNodes();
 		}
 
 
@@ -141,7 +128,7 @@
 		 */
 		public function hasName()
 		{
-			return !self::isNameEmpty($this->getHtmlNode()->getName());
+			return !Helpers::isNameEmpty($this->getHtmlNode()->getName());
 		}
 
 
@@ -151,7 +138,7 @@
 		public function getName()
 		{
 			$name = $this->getHtmlNode()->getName();
-			return !self::isNameEmpty($name) ? $name : NULL;
+			return !Helpers::isNameEmpty($name) ? $name : NULL;
 		}
 
 
@@ -207,7 +194,7 @@
 				return FALSE;
 			}
 
-			$value = self::formatAttributeValue($this->getAttribute('class'));
+			$value = Helpers::formatAttributeValue($this->getAttribute('class'));
 			return strpos(" $value ", " $class ") !== FALSE;
 		}
 
@@ -379,41 +366,5 @@
 			}
 
 			throw new \Teio\InvalidStateException('Node must be instance of Html, ' . gettype($this->node) . ' given.');
-		}
-
-
-		/**
-		 * @param  string
-		 * @return bool
-		 */
-		private static function isNameEmpty($name)
-		{
-			return $name === NULL || $name === '';
-		}
-
-
-		/**
-		 * @param  mixed
-		 * @return string
-		 */
-		private static function formatAttributeValue($value)
-		{
-			if (is_array($value)) {
-				$tmp = null;
-				foreach ($value as $k => $v) {
-					if ($v != null) { // intentionally ==, skip nulls & empty string
-						// composite 'style' vs. 'others'
-						$tmp[] = $v === true ? $k : (is_string($k) ? $k . ':' . $v : $v);
-					}
-				}
-
-				if ($tmp === null) {
-					return '';
-				}
-
-				$value = implode(' ', $tmp);
-			}
-
-			return (string) $value;
 		}
 	}

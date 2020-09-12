@@ -81,7 +81,7 @@
 		/**
 		 * @return bool
 		 */
-		public function matchNode(DomNode $node)
+		public function matchNode(ISelectableNode $node)
 		{
 			if (!$node->isElement()) {
 				return FALSE;

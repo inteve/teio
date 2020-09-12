@@ -6,7 +6,7 @@
 	use Teio\Helpers;
 
 
-	class DomParentNode
+	class DomParentNode implements ISelectableNode
 	{
 		/** @var Html */
 		private $node;
@@ -22,13 +22,19 @@
 		}
 
 
+		public function isElement()
+		{
+			return TRUE;
+		}
+
+
 		/**
 		 * @return string|NULL
 		 */
 		public function getName()
 		{
 			$name = $this->node->getName();
-			return !self::isNameEmpty($name) ? $name : NULL;
+			return !Helpers::isNameEmpty($name) ? $name : NULL;
 		}
 
 
@@ -50,7 +56,7 @@
 				return FALSE;
 			}
 
-			$value = self::formatAttributeValue($this->getAttribute('class'));
+			$value = Helpers::formatAttributeValue($this->getAttribute('class'));
 			return strpos(" $value ", " $class ") !== FALSE;
 		}
 
