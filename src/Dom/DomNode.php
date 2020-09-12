@@ -271,6 +271,8 @@
 			foreach ($children as $child) {
 				$node->addHtml($child);
 			}
+
+			return $this;
 		}
 
 
