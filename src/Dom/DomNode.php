@@ -321,7 +321,7 @@
 				$this->node->setHtml($original);
 
 			} else {
-				throw new \Teio\InvalidStateException('Only Html instance can be wrapped.');
+				throw new \Teio\InvalidArgumentException('Only Html instance can be wrapped.');
 			}
 			return $this;
 		}
