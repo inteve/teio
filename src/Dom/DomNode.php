@@ -29,6 +29,9 @@
 		/** @var bool */
 		private $isLast;
 
+		/** @var int|TRUE|NULL */
+		private $moveUpLevels = NULL;
+
 
 		/**
 		 * @param  bool $isLast
@@ -332,49 +335,42 @@
 		}
 
 
-		public function moveUp()
+		public function moveUp($levels)
 		{
-			return;
-			$parent = $this->getParent();
+			if ($levels === NULL) {
+				$this->moveUpLevels = TRUE;
 
-			if ($parent->isRoot()) {
-				return;
+			} elseif ($levels > 0) {
+				$this->moveUpLevels = $levels;
+
+			} else {
+				throw new \Teio\InvalidArgumentException('Invalid level.');
 			}
 
-			$parentParent = $parent->getParent();
-			$parentParentNode = $parentParent->node;
-			$parentNode = $parent->node;
-			$parentChildren = $parentNode->getChildren();
-			$first = array_slice($parentChildren, 0, $this->getIndex());
-			$second = array_slice($parentChildren, $this->getIndex() + 1);
+			return $this;
+		}
 
-			$parentIndex = $parent->getIndex();
-			$parentNode->removeChildren();
-			$secondParentNode = clone $parentNode;
-			$replace = TRUE;
 
-			if (!empty($first)) {
-				foreach ($first as $child) {
-					$parentNode->addHtml($child);
-				}
+		public function isMovedUp()
+		{
+			return (bool) $this->moveUpLevels;
+		}
 
-				$parentParentNode->insert($parentIndex, $parentNode, $replace);
-				$replace = FALSE;
-				$parentIndex++;
+
+		/**
+		 * @return int|NULL
+		 */
+		public function getMoveUpLevels()
+		{
+			if (!$this->isMovedUp()) {
+				throw new \Teio\InvalidStateException('Node is not moved up.');
 			}
 
-			$parentParentNode->insert($parentIndex, $this->node, $replace);
-			$parentIndex++;
-
-			if (!empty($second)) {
-				foreach ($second as $child) {
-					$secondParentNode->addHtml($child);
-				}
-
-				$parentParentNode->insert($parentIndex, $secondParentNode, FALSE);
+			if ($this->moveUpLevels === TRUE) {
+				return NULL;
 			}
 
-			$this->parent = $parentParent;
+			return $this->moveUpLevels;
 		}
 
 
@@ -383,35 +379,7 @@
 		 */
 		public function getChildren()
 		{
-			$parent = $this->getHtmlNode();
-			$children = $parent->getChildren();
-			$count = 0;
-
-			foreach ($children as $child) {
-				if ($child instanceof Html) {
-					$count++;
-				}
-			}
-
-			$result = [];
-			$position = 0;
-			$previousNode = NULL;
-
-			foreach ($children as &$child) {
-				$childPosition = NULL;
-
-				if ($child instanceof Html) {
-					$childPosition = $position;
-				}
-
-				$previousNode = $result[] = new self($child, $this, $previousNode, $childPosition, ($position + 1) === $count);
-
-				if ($child instanceof Html) {
-					$position++;
-				}
-			}
-
-			return $result;
+			return $this->getHtmlNode()->getChildren();
 		}
 
 

@@ -64,8 +64,39 @@
 				}
 
 				$newElement = $node->getNode();
+
+				if ($node->isMovedUp()) {
+					$moveUpLevels = $node->getMoveUpLevels();
+
+					if ($moveUpLevels === NULL) {
+						$moveUpLevels = count($parents) - 1;
+					}
+
+					$moveUpLevels = min($moveUpLevels, count($parents) - 1);
+					$endedParents = array_slice($parents, count($parents) - $moveUpLevels);
+					$parents = array_slice($parents, 0, count($parents) - $moveUpLevels);
+					$parent = end($parents);
+					$parentElement = $parent['element'];
+					$parentElement->addHtml($newElement);
+
+					foreach ($endedParents as $endedParent) {
+						$newParent = clone $endedParent['element'];
+						$newParent->removeChildren();
+						$parentElement->addHtml($newParent);
+
+						$parents[] = [
+							'node' => new DomParentNode($newParent, 0, FALSE), // TODO
+							'element' => $newParent,
+						];
+
+						$parentElement = $newParent;
+					}
+
+				} else {
+					$parentElement->addHtml($newElement);
+				}
+
 				$node->detach();
-				$parentElement->addHtml($newElement);
 
 				if (($newElement instanceof Html) && count($newElement) > 0) {
 					$this->addChildrenFrom($newElement, $level + 1);
