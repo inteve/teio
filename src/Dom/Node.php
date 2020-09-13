@@ -179,7 +179,7 @@
 		}
 
 
-		public function moveUp($levels)
+		public function moveUp($levels = 1)
 		{
 			$this->getDomNode()->moveUp($levels);
 			return $this;

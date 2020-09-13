@@ -1,7 +1,7 @@
 <?php
 
 use Nette\Utils\Html;
-use Teio\Dom\DomNode;
+use Teio\Dom\Dom;
 use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
@@ -23,13 +23,10 @@ function createDom()
 
 
 test(function () {
-	$dom = createDom();
-	$root = DomNode::root($dom);
-
-	$level1 = $root->getChildren();
-	$level2 = $level1[0]->getChildren();
-	$level3 = $level2[0]->getChildren();
-	$level3[1]->moveUp();
+	$dom = new Dom(createDom());
+	$dom->find('.level-3.level-3--second', function (Teio\Dom\Node $node) {
+		$node->moveUp();
+	});
 
 	$expected = Html::el();
 	$expected->addHtml(Html::el('div class="level-1"')
@@ -42,18 +39,15 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--third"'))
 		)
 	);
-	TeioAssert::equalHtml($expected, $dom);
+	TeioAssert::equalHtml($expected, $dom->getDom());
 });
 
 
 test(function () {
-	$dom = createDom();
-	$root = DomNode::root($dom);
-
-	$level1 = $root->getChildren();
-	$level2 = $level1[0]->getChildren();
-	$level3 = $level2[0]->getChildren();
-	$level3[0]->moveUp();
+	$dom = new Dom(createDom());
+	$dom->find('.level-3.level-3--first', function (Teio\Dom\Node $node) {
+		$node->moveUp();
+	});
 
 	$expected = Html::el();
 	$expected->addHtml(Html::el('div class="level-1"')
@@ -64,18 +58,15 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--third"'))
 		)
 	);
-	TeioAssert::equalHtml($expected, $dom);
+	TeioAssert::equalHtml($expected, $dom->getDom());
 });
 
 
 test(function () {
-	$dom = createDom();
-	$root = DomNode::root($dom);
-
-	$level1 = $root->getChildren();
-	$level2 = $level1[0]->getChildren();
-	$level3 = $level2[0]->getChildren();
-	$level3[2]->moveUp();
+	$dom = new Dom(createDom());
+	$dom->find('.level-3.level-3--third', function (Teio\Dom\Node $node) {
+		$node->moveUp();
+	});
 
 	$expected = Html::el();
 	$expected->addHtml(Html::el('div class="level-1"')
@@ -88,7 +79,7 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--third"'))
 		)
 	);
-	TeioAssert::equalHtml($expected, $dom);
+	TeioAssert::equalHtml($expected, $dom->getDom());
 });
 
 
