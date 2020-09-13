@@ -30,6 +30,7 @@
 				$length = strlen($text);
 				$lastOffset = 0;
 				$matchOffset = 0;
+				$isReplaced = FALSE;
 
 				foreach ($matches as $match) {
 					$matchOffset = $match[0][1];
@@ -64,6 +65,7 @@
 						$lastOffset += strlen($match[0][0]);
 						$cb = $this->handlers[$cmd];
 						$result = $cb($cmd, $args);
+						$isReplaced = TRUE;
 
 						if ($result === NULL) { // no output
 							// nothing
@@ -78,6 +80,10 @@
 							throw new \Teio\InvalidStateException('Invalid handler result, result must be Html, string or NULL.');
 						}
 					}
+				}
+
+				if (!$isReplaced) {
+					return;
 				}
 
 				if ($lastOffset < $length) {
