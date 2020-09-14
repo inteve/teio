@@ -49,7 +49,13 @@
 				}
 
 				$newElement = $node->getNode();
-				$parents->getLastNode()->appendChild($newElement);
+				$newContent = $newElement;
+
+				foreach ($node->getWrappers() as $wrapper) {
+					$newContent = Html::el($wrapper->getName(), $wrapper->attrs)->setHtml($newContent);
+				}
+
+				$parents->getLastNode()->appendChild($newContent);
 				$parents->recreateEndedNodes();
 				$node->detach();
 

@@ -29,6 +29,9 @@
 		/** @var bool */
 		private $skipChildren = FALSE;
 
+		/** @var Html[] */
+		private $wrappers = [];
+
 
 		public function __construct($node, DomParentNodes $parents, DomPosition $position = NULL)
 		{
@@ -307,16 +310,17 @@
 
 		public function wrapBy(Html $wrapper)
 		{
-			if ($this->node instanceof Html) {
-				$original = clone $this->node;
-				$this->node->setName($wrapper->getName());
-				$this->node->attrs = $wrapper->attrs;
-				$this->node->setHtml($original);
-
-			} else {
-				throw new \Teio\InvalidArgumentException('Only Html instance can be wrapped.');
-			}
+			$this->wrappers[] = $wrapper;
 			return $this;
+		}
+
+
+		/**
+		 * @return Html[]
+		 */
+		public function getWrappers()
+		{
+			return $this->wrappers;
 		}
 
 
