@@ -26,6 +26,9 @@
 		/** @var DomPosition|NULL */
 		private $position;
 
+		/** @var bool */
+		private $skipChildren = FALSE;
+
 
 		public function __construct($node, DomParentNodes $parents, DomPosition $position = NULL)
 		{
@@ -68,6 +71,19 @@
 			$this->node = NULL;
 			$this->type = self::TYPE_REMOVED;
 			$this->parents = NULL;
+		}
+
+
+		public function canSkipChildren()
+		{
+			return $this->skipChildren;
+		}
+
+
+		public function skipChildren($skipChildren = TRUE)
+		{
+			$this->skipChildren = $skipChildren;
+			return $this;
 		}
 
 

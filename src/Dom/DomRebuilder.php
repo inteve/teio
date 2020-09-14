@@ -53,7 +53,7 @@
 				$parents->recreateEndedNodes();
 				$node->detach();
 
-				if (($newElement instanceof Html) && count($newElement) > 0) {
+				if (!$node->canSkipChildren() && ($newElement instanceof Html) && count($newElement) > 0) {
 					$this->addChildrenFrom($newElement, $level + 1);
 					$newElement->removeChildren();
 					$parents->addNode(new DomParentNode($newElement, $position));

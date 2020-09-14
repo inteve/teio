@@ -91,6 +91,7 @@
 				}
 
 				$node->replaceByHtml($newContent);
+				$node->skipChildren();
 			});
 		}
 	}

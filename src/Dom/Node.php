@@ -23,6 +23,13 @@
 		}
 
 
+		public function skipChildren($skipChildren = TRUE)
+		{
+			$this->getDomNode()->skipChildren($skipChildren);
+			return $this;
+		}
+
+
 		public function isHtml()
 		{
 			return $this->getDomNode()->isHtml();
