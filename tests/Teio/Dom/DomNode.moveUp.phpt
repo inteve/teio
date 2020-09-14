@@ -39,7 +39,7 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--third"'))
 		)
 	);
-	TeioAssert::equalHtml($expected, $dom->getDom());
+	Assert::same((string) $expected, $dom->toHtml());
 });
 
 
@@ -58,7 +58,7 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--third"'))
 		)
 	);
-	TeioAssert::equalHtml($expected, $dom->getDom());
+	Assert::same((string) $expected, $dom->toHtml());
 });
 
 
@@ -79,7 +79,7 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--third"'))
 		)
 	);
-	TeioAssert::equalHtml($expected, $dom->getDom());
+	Assert::same((string) $expected, $dom->toHtml());
 });
 
 
@@ -101,7 +101,7 @@ test(function () {
 		)
 		->addHtml(Html::el('div class="level-3 level-3--third"'))
 	);
-	TeioAssert::equalHtml($expected, $dom);
+	Assert::same((string) $expected, $dom->toHtml());
 });
 
 
@@ -125,5 +125,5 @@ test(function () {
 		->addText('lorem ipsum')
 		->addHtml(Html::el('div class="level-3 level-3--third"'))
 	);
-	TeioAssert::equalHtml($expected, $dom);
+	Assert::same((string) $expected, $dom->toHtml());
 });
