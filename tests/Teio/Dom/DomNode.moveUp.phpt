@@ -51,6 +51,7 @@ test(function () {
 
 	$expected = Html::el();
 	$expected->addHtml(Html::el('div class="level-1"')
+		->addHtml(Html::el('div class="level-2"'))
 		->addHtml(Html::el('div class="level-3 level-3--first"'))
 		->addHtml(Html::el('div class="level-2"')
 			->addHtml(Html::el('div class="level-3 level-3--second"'))
@@ -73,47 +74,21 @@ test(function () {
 		->addHtml(Html::el('div class="level-2"')
 			->addHtml(Html::el('div class="level-3 level-3--first"'))
 			->addHtml(Html::el('div class="level-3 level-3--second"'))
-		)
-		->addText('lorem ipsum')
-		->addHtml(Html::el('div class="level-2"')
-			->addHtml(Html::el('div class="level-3 level-3--third"'))
-		)
-	);
-	Assert::same((string) $expected, $dom->toHtml());
-});
-
-
-test(function () {
-	$dom = createDom();
-	$root = DomNode::root($dom);
-
-	$level1 = $root->getChildren();
-	$level2 = $level1[0]->getChildren();
-	$level3 = $level2[0]->getChildren();
-	$level3[3]->moveUp();
-
-	$expected = Html::el();
-	$expected->addHtml(Html::el('div class="level-1"')
-		->addHtml(Html::el('div class="level-2"')
-			->addHtml(Html::el('div class="level-3 level-3--first"'))
-			->addHtml(Html::el('div class="level-3 level-3--second"'))
 			->addText('lorem ipsum')
 		)
 		->addHtml(Html::el('div class="level-3 level-3--third"'))
+		->addHtml(Html::el('div class="level-2"'))
 	);
 	Assert::same((string) $expected, $dom->toHtml());
 });
 
 
 test(function () {
-	$dom = createDom();
-	$root = DomNode::root($dom);
-
-	$level1 = $root->getChildren();
-	$level2 = $level1[0]->getChildren();
-	$level3 = $level2[0]->getChildren();
-	$level3[1]->moveUp();
-	$level3[1]->moveUp();
+	$dom = new Dom(createDom());
+	$dom->find('.level-3.level-3--second', function (Teio\Dom\Node $node) {
+		$node->moveUp();
+		$node->moveUp();
+	});
 
 	$expected = Html::el();
 	$expected->addHtml(Html::el('div class="level-1"')
@@ -121,9 +96,10 @@ test(function () {
 			->addHtml(Html::el('div class="level-3 level-3--first"'))
 		));
 	$expected->addHtml(Html::el('div class="level-3 level-3--second"'));
-	$expected->addHtml(Html::el('div class="level-2"')
-		->addText('lorem ipsum')
-		->addHtml(Html::el('div class="level-3 level-3--third"'))
-	);
+	$expected->addHtml(Html::el('div class="level-1"')
+		->addHtml(Html::el('div class="level-2"')
+			->addText('lorem ipsum')
+			->addHtml(Html::el('div class="level-3 level-3--third"'))
+		));
 	Assert::same((string) $expected, $dom->toHtml());
 });
