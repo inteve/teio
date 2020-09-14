@@ -356,22 +356,6 @@
 		}
 
 
-		// private function replaceChild($index, $child)
-		// {
-		// 	$this->getHtmlNode()->insert($index, $child, TRUE);
-		// }
-
-
-		// private function getIndex()
-		// {
-		// 	if ($this->previousNode === NULL) {
-		// 		return 0;
-		// 	}
-
-		// 	return $this->previousNode->getIndex() + 1;
-		// }
-
-
 		/**
 		 * @return Html
 		 */
