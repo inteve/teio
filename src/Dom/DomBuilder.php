@@ -46,9 +46,9 @@
 		}
 
 
-		public function addEmptyNode($tag)
+		public function addEmptyNode($tag, $attrs)
 		{
-			$this->currentElement->addHtml(Html::el($tag));
+			$this->currentElement->addHtml($this->createElement($tag, $attrs));
 		}
 
 
@@ -71,5 +71,11 @@
 					$this->currentElement = $this->dom;
 				}
 			}
+		}
+
+
+		private function createElement($tag, $attrs)
+		{
+			return Html::el($tag . ' ' . $attrs);
 		}
 	}

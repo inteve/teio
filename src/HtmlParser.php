@@ -79,7 +79,7 @@
 
 					} else {
 						if ($isEmpty) {
-							$domBuilder->addEmptyNode($mTag);
+							$domBuilder->addEmptyNode($mTag, $mAttr);
 
 						} else {
 							$domBuilder->startNode($mTag, $mAttr);
