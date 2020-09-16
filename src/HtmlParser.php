@@ -100,6 +100,10 @@
 				}
 			}
 
+			if ($lastOffset < strlen($s)) {
+				$domBuilder->addTextNode(substr($s, $lastOffset));
+			}
+
 			return $domBuilder->toDom();
 		}
 
