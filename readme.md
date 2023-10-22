@@ -1,7 +1,7 @@
 
 # Inteve\Teio
 
-[![Build Status](https://travis-ci.org/inteve/teio.svg?branch=master)](https://travis-ci.org/inteve/teio)
+[![Build Status](https://github.com/inteve/teio/workflows/Build/badge.svg)](https://github.com/inteve/teio/actions)
 
 Powerful HTML processor.
 
