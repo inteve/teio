@@ -27,7 +27,7 @@
 					$tagName = strtolower($node->getName());
 
 					if (!isset($this->enabledTags[$tagName]) || $this->enabledTags[$tagName] === FALSE) {
-						$node->setName(NULL);
+						$node->setName('');
 						$node->setAttributes([]);
 
 					} elseif (is_array($this->enabledTags[$tagName])) { // attrs whitelist
