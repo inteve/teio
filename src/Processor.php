@@ -3,7 +3,7 @@
 	namespace Teio;
 
 
-	class Teio
+	class Processor
 	{
 		/** @var IModule[] */
 		private $modules;
