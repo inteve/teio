@@ -2,29 +2,16 @@
 
 	namespace Teio;
 
-	use PHPHtmlParser;
-
 
 	class Teio
 	{
+		/** @var IModule[] */
 		private $modules;
 
 
-		public function __construct()
+		public function __construct(array $modules = [])
 		{
-			$this->modules = [
-				// new Modules\HtmlFilterModule,
-				// new Modules\TypographyModule,
-				// new Modules\EmoticonModule,
-				// new Modules\HtmlTagModificationModule,
-				// new Modules\ScriptModule,
-			];
-		}
-
-
-		public function addHandler(callable $cb) // ???
-		{
-
+			$this->modules = $modules;
 		}
 
 
