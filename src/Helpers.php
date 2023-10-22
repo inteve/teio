@@ -5,9 +5,8 @@
 
 	class Helpers
 	{
-		public function __construct()
+		private function __construct()
 		{
-			throw new \Teio\StaticClassException('This is static class.');
 		}
 
 
