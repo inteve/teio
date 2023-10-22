@@ -56,4 +56,16 @@ class TeioAssert
 			}
 		}
 	}
+
+
+	public static function checkModuleOutput($fixture, Teio\IModule $module)
+	{
+		$sourceFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.source.html';
+		$expectedFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.expected.html';
+
+		$parser = new Teio\HtmlParser;
+		$dom = $parser->parse(file_get_contents($sourceFile));
+		$module->process($dom);
+		Assert::matchFile($expectedFile, $dom->toHtml());
+	}
 }
