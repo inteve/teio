@@ -22,8 +22,7 @@
 		public function process($s)
 		{
 			$parser = new HtmlParser($this->domRules);
-			$html = $parser->parse($s);
-			$dom = new Dom\Dom($html);
+			$dom = $parser->parse($s);
 
 			foreach ($this->modules as $module) {
 				$module->process($dom);

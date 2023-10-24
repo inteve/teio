@@ -32,7 +32,7 @@
 
 
 		/**
-		 * @param  string[] $text
+		 * @param  string $text
 		 * @return int  see self::DISALLOW, self::ALLOW
 		 */
 		function isTextAllowed($text, array $parents);
