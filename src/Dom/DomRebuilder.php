@@ -94,7 +94,7 @@
 			$position = 0;
 			$item = NULL;
 
-			foreach ($parent as $index => $child) {
+			foreach ($parent->getChildren() as $index => $child) {
 				$childPosition = NULL;
 
 				if ($child instanceof Html) {
