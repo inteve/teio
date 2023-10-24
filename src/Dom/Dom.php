@@ -1,17 +1,16 @@
 <?php
 
-	namespace Teio;
+	namespace Teio\Dom;
 
 	use Nette\Utils\Html;
-	use Teio\Dom\DomNode;
 
 
-	class HtmlDom
+	class Dom
 	{
 		/** @var Html */
 		private $dom;
 
-		/** @var Dom\DomSelectorParser */
+		/** @var DomSelectorParser */
 		private $selectorParser;
 
 
@@ -50,7 +49,7 @@
 			$selectorParser = $this->getSelectorParser();
 			$selector = $selectorParser->parse($selector);
 
-			$this->walk(function (Dom\DomNode $node) use (&$result, $selector) {
+			$this->walk(function (DomNode $node) use (&$result, $selector) {
 				if ($selector->matchNode($node)) {
 					$result[] = $node;
 				}
@@ -80,7 +79,7 @@
 		public function walk(callable $cb)
 		{
 			$stack = [];
-			$stack[] = Dom\DomNode::root($this->dom);
+			$stack[] = DomNode::root($this->dom);
 
 			while (!empty($stack)) {
 				$node = array_shift($stack);
@@ -101,7 +100,7 @@
 		private function getSelectorParser()
 		{
 			if ($this->selectorParser === NULL) {
-				$this->selectorParser = new Dom\DomSelectorParser;
+				$this->selectorParser = new DomSelectorParser;
 			}
 
 			return $this->selectorParser;

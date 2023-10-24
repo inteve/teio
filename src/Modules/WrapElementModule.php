@@ -3,8 +3,8 @@
 	namespace Teio\Modules;
 
 	use Nette\Utils\Html;
+	use Teio\Dom\Dom;
 	use Teio\IModule;
-	use Teio\HtmlDom;
 
 
 	class WrapElementModule implements IModule
@@ -19,7 +19,7 @@
 		}
 
 
-		public function process(HtmlDom $dom)
+		public function process(Dom $dom)
 		{
 			foreach ($this->wraps as $selector => $wrapper) {
 				$nodes = $dom->find($selector);

@@ -4,8 +4,8 @@
 
 	use Nette\Utils\Html;
 	use Nette\Utils\Strings;
+	use Teio\Dom\Dom;
 	use Teio\IModule;
-	use Teio\HtmlDom;
 
 
 	class ScriptModule implements IModule
@@ -20,7 +20,7 @@
 		}
 
 
-		public function process(HtmlDom $dom)
+		public function process(Dom $dom)
 		{
 			$nodes = $dom->findTextNodes();
 

@@ -16,7 +16,7 @@ function test($cb)
 
 class TeioAssert
 {
-	public static function equalDom(Html $expected, Teio\HtmlDom $actual)
+	public static function equalDom(Html $expected, Teio\Dom\Dom $actual)
 	{
 		self::equalHtml($expected, $actual->getDom());
 	}

@@ -3,9 +3,9 @@
 	namespace Teio\Modules;
 
 	use Nette\Utils\Html;
+	use Teio\Dom\Dom;
 	use Teio\Dom\DomNode;
 	use Teio\IModule;
-	use Teio\HtmlDom;
 
 
 	class RenameTagModule implements IModule
@@ -20,7 +20,7 @@
 		}
 
 
-		public function process(HtmlDom $dom)
+		public function process(Dom $dom)
 		{
 			$dom->walk(function (DomNode $node) {
 				if ($node->isElement()) {

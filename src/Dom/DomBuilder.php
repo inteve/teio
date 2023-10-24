@@ -1,12 +1,12 @@
 <?php
 
-	namespace Teio;
+	namespace Teio\Dom;
 
 	use Nette\Utils\Html;
 	use Nette\Utils\Strings;
 
 
-	class HtmlDomBuilder
+	class DomBuilder
 	{
 		/** @var Html */
 		private $dom;
@@ -26,11 +26,11 @@
 
 
 		/**
-		 * @return HtmlDom
+		 * @return Dom
 		 */
 		public function toDom()
 		{
-			return new HtmlDom($this->dom);
+			return new Dom($this->dom);
 		}
 
 

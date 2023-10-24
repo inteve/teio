@@ -5,5 +5,5 @@
 
 	interface IModule
 	{
-		function process(HtmlDom $dom);
+		function process(Dom\Dom $dom);
 	}

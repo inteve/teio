@@ -26,7 +26,7 @@
 				self::TYPE_COMMENT => '#<!--(.*?)-->#is',
 			]);
 
-			$domBuilder = new HtmlDomBuilder;
+			$domBuilder = new Dom\DomBuilder;
 			$lastOffset = 0;
 			// TODO: inline vs block elements
 

@@ -19,7 +19,7 @@
 		{
 			$parser = new HtmlParser;
 			$html = $parser->parse($s);
-			$dom = new HtmlDom($html);
+			$dom = new Dom\Dom($html);
 
 			foreach ($this->modules as $module) {
 				$module->process($dom);
