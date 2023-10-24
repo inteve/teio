@@ -5,10 +5,10 @@
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
-	use Teio\IModule;
+	use Teio\Module;
 
 
-	class HtmlFilterModule implements IModule
+	class HtmlFilterModule implements Module
 	{
 		/** @var array<string, string[]|bool> */
 		private $enabledTags;

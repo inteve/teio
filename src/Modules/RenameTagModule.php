@@ -5,10 +5,10 @@
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
-	use Teio\IModule;
+	use Teio\Module;
 
 
-	class RenameTagModule implements IModule
+	class RenameTagModule implements Module
 	{
 		/** @var array<string, string> */
 		private $replacements;

@@ -4,12 +4,12 @@
 
 	use Nette\Utils\Html;
 	use Nette\Utils\Strings;
-	use Teio\IModule;
+	use Teio\Module;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
 
 
-	class AutoLinkModule implements IModule
+	class AutoLinkModule implements Module
 	{
 		public function process(Dom $dom): void
 		{

@@ -31,7 +31,7 @@ class TeioAssert
 	}
 
 
-	public static function checkModuleOutput(string $fixture, Teio\IModule $module): void
+	public static function checkModuleOutput(string $fixture, Teio\Module $module): void
 	{
 		$sourceFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.source.html';
 		$expectedFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.expected.html';

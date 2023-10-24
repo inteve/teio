@@ -5,10 +5,10 @@
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
-	use Teio\IModule;
+	use Teio\Module;
 
 
-	class TopLevelBlockModule implements IModule
+	class TopLevelBlockModule implements Module
 	{
 		/** @var array<string> */
 		private $selectors;

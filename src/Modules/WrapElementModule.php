@@ -5,10 +5,10 @@
 	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
-	use Teio\IModule;
+	use Teio\Module;
 
 
-	class WrapElementModule implements IModule
+	class WrapElementModule implements Module
 	{
 		/** @var array<string, string> */
 		private $wraps;

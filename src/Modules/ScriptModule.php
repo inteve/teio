@@ -6,10 +6,10 @@
 	use Nette\Utils\Strings;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
-	use Teio\IModule;
+	use Teio\Module;
 
 
-	class ScriptModule implements IModule
+	class ScriptModule implements Module
 	{
 		/** @var array<string, callable> */
 		private $handlers;

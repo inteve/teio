@@ -3,7 +3,7 @@
 	namespace Teio;
 
 
-	interface IModule
+	interface Module
 	{
 		function process(Dom\Dom $dom): void;
 	}

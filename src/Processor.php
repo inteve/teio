@@ -5,7 +5,7 @@
 
 	class Processor
 	{
-		/** @var IModule[] */
+		/** @var Module[] */
 		private $modules;
 
 		/** @var IDomRules */
@@ -13,7 +13,7 @@
 
 
 		/**
-		 * @param IModule[] $modules
+		 * @param Module[] $modules
 		 */
 		public function __construct(array $modules, IDomRules $domRules = NULL)
 		{
