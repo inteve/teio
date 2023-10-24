@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Teio\Modules\AutoLinkModule;
 
 require __DIR__ . '/../../bootstrap.php';

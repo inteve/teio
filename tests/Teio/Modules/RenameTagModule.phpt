@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Nette\Utils\Html;
 use Teio\HtmlParser;
 use Teio\Modules\RenameTagModule;

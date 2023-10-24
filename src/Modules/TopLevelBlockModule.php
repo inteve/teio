@@ -1,5 +1,7 @@
 <?php
 
+	declare(strict_types=1);
+
 	namespace Teio\Modules;
 
 	use Nette\Utils\Html;
