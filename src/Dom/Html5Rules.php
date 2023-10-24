@@ -15,6 +15,7 @@
 		const CLOSES = 4;
 		const CHILD_MUST_BE = 5;
 
+		/** @var array<string, bool> */
 		private static $inlineElements = [
 			'::text' => TRUE,
 			'a' => TRUE,
@@ -75,6 +76,7 @@
 			'wbr' => TRUE,
 		];
 
+		/** @var array<string, array<self::*, string|string[]>> */
 		private static $rules = [
 			// child
 			'a' => [
@@ -171,7 +173,11 @@
 		}
 
 
-		private function isAllowed($tagName, array $parents)
+		/**
+		 * @param  string[] $parents
+		 * @return self::CLOSE_PARENT|self::DISALLOW|self::ALLOW
+		 */
+		private function isAllowed(string $tagName, array $parents): int
 		{
 			$reverseParents = array_reverse($parents);
 			$childRules = isset(self::$rules[$tagName]) ? self::$rules[$tagName] : NULL;

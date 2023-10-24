@@ -11,18 +11,21 @@
 	class TopLevelBlockModule implements IModule
 	{
 		/** @var array<string> */
-		private $blocks;
+		private $selectors;
 
 
-		public function __construct(array $blocks)
+		/**
+		 * @param string[] $selectors
+		 */
+		public function __construct(array $selectors)
 		{
-			$this->blocks = $blocks;
+			$this->selectors = $selectors;
 		}
 
 
-		public function process(Dom $dom)
+		public function process(Dom $dom): void
 		{
-			foreach ($this->blocks as $selector) {
+			foreach ($this->selectors as $selector) {
 				$dom->find($selector, function (Node $node) {
 					$node->moveToRoot();
 				});

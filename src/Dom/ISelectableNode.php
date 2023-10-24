@@ -5,26 +5,29 @@
 
 	interface ISelectableNode
 	{
-		function isElement();
+		function isElement(): bool;
 
 
-		function getName();
+		function getName(): ?string;
 
 
-		function hasAttribute($attr);
+		function hasAttribute(string $attr): bool;
 
 
-		function getAttribute($attr);
+		/**
+		 * @return scalar|NULL|array<scalar|NULL>
+		 */
+		function getAttribute(string $attr);
 
 
-		function hasClass($class);
+		function hasClass(string $class): bool;
 
 
-		function hasPosition();
+		function hasPosition(): bool;
 
 
-		function isFirst();
+		function isFirst(): bool;
 
 
-		function isLast();
+		function isLast(): bool;
 	}

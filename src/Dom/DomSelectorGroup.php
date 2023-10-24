@@ -9,7 +9,7 @@
 		private $parts = [];
 
 
-		public function addPart()
+		public function addPart(): DomSelectorGroupPart
 		{
 			return $this->parts[] = new DomSelectorGroupPart($this);
 		}
@@ -62,7 +62,10 @@
 
 		/**
 		 * Fetchs element from end of array or NULL if array is empty.
-		 * @return mixed|NULL
+		 * @template T
+		 * @param array<T> &$arr
+		 * @param-out array<T> $arr
+		 * @return T|NULL
 		 */
 		private static function fetch(array &$arr)
 		{
@@ -73,7 +76,7 @@
 		}
 
 
-		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, ISelectableNode $node = NULL)
+		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, ISelectableNode $node = NULL): bool
 		{
 			if ($selectorPart === NULL || $node === NULL) {
 				return FALSE;

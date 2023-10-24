@@ -22,35 +22,32 @@
 		}
 
 
-		public function isElement()
+		public function isElement(): bool
 		{
 			return TRUE;
 		}
 
 
-		/**
-		 * @return string|NULL
-		 */
-		public function getName()
+		public function getName(): ?string
 		{
 			$name = $this->node->getName();
 			return !Helpers::isNameEmpty($name) ? $name : NULL;
 		}
 
 
-		public function hasAttribute($attr)
+		public function hasAttribute(string $attr): bool
 		{
 			return isset($this->node->attrs[$attr]);
 		}
 
 
-		public function getAttribute($attr)
+		public function getAttribute(string $attr)
 		{
 			return $this->node->getAttribute($attr);
 		}
 
 
-		public function hasClass($class)
+		public function hasClass(string $class): bool
 		{
 			if (!$this->hasAttribute('class')) {
 				return FALSE;
@@ -61,13 +58,13 @@
 		}
 
 
-		public function hasPosition()
+		public function hasPosition(): bool
 		{
 			return $this->position !== NULL;
 		}
 
 
-		public function isFirst()
+		public function isFirst(): bool
 		{
 			if (!$this->hasPosition()) {
 				throw new \Teio\InvalidStateException('ParentNode has not position.');
@@ -77,7 +74,7 @@
 		}
 
 
-		public function isLast()
+		public function isLast(): bool
 		{
 			if (!$this->hasPosition()) {
 				throw new \Teio\InvalidStateException('ParentNode has not position.');

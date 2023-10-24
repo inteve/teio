@@ -15,13 +15,16 @@
 		private $handlers;
 
 
+		/**
+		 * @param array<string, callable> $handlers
+		 */
 		public function __construct(array $handlers)
 		{
 			$this->handlers = $handlers;
 		}
 
 
-		public function process(Dom $dom)
+		public function process(Dom $dom): void
 		{
 			$dom->findTextNodes(function (Node $node) {
 				$newContent = Html::el();

@@ -5,5 +5,5 @@
 
 	interface IModule
 	{
-		function process(Dom\Dom $dom);
+		function process(Dom\Dom $dom): void;
 	}

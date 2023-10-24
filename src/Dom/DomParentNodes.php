@@ -29,20 +29,23 @@
 		}
 
 
-		public function getNodes()
+		/**
+		 * @return DomParentNode[]
+		 */
+		public function getNodes(): array
 		{
 			return $this->nodes;
 		}
 
 
-		public function addNode(DomParentNode $node)
+		public function addNode(DomParentNode $node): void
 		{
 			$this->nodes[] = $node;
 			$this->endedNodes = [];
 		}
 
 
-		public function gotoLevel($level)
+		public function gotoLevel(int $level): void
 		{
 			if ($level < 1) {
 				throw new \Teio\InvalidArgumentException('Level must be 1 or higher.');
@@ -59,13 +62,13 @@
 		}
 
 
-		public function canMoveUp()
+		public function canMoveUp(): bool
 		{
 			return count($this->nodes) > 1;
 		}
 
 
-		public function moveUp($levels = 1)
+		public function moveUp(int $levels = 1): void
 		{
 			if (!$this->canMoveUp()) {
 				throw new \Teio\InvalidStateException('Cannot be moved up.');
@@ -85,7 +88,7 @@
 		}
 
 
-		public function moveToRoot()
+		public function moveToRoot(): void
 		{
 			if (!$this->canMoveUp()) {
 				throw new \Teio\InvalidStateException('Cannot be moved up.');
@@ -97,7 +100,7 @@
 		}
 
 
-		public function recreateEndedNodes()
+		public function recreateEndedNodes(): void
 		{
 			foreach ($this->endedNodes as $endedNode) {
 				$element = $endedNode->cloneTag();

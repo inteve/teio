@@ -18,7 +18,7 @@
 		/**
 		 * @param  bool $isLast
 		 */
-		public function __construct($position, $isLast)
+		public function __construct(int $position, $isLast)
 		{
 			if ($position < 0) {
 				throw new \Teio\InvalidArgumentException('Position must be 0 or higher.');
@@ -29,13 +29,13 @@
 		}
 
 
-		public function isFirst()
+		public function isFirst(): bool
 		{
 			return $this->position === 0;
 		}
 
 
-		public function isLast()
+		public function isLast(): bool
 		{
 			return $this->isLast;
 		}

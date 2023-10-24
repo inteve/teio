@@ -58,7 +58,7 @@
 		}
 
 
-		public function findTextNodes(callable $cb)
+		public function findTextNodes(callable $cb): void
 		{
 			$this->walkDom(function (DomNode $domNode) use ($cb) {
 				if ($domNode->isText()) {
@@ -70,7 +70,7 @@
 		}
 
 
-		public function walk(callable $cb)
+		public function walk(callable $cb): void
 		{
 			$this->walkDom(function (DomNode $domNode) use ($cb) {
 				$node = new Node($domNode);
@@ -80,7 +80,7 @@
 		}
 
 
-		private function walkDom(callable $cb)
+		private function walkDom(callable $cb): void
 		{
 			$rebuilder = new DomRebuilder($this->dom, function (DomNode $domNode) use ($cb) {
 				$cb($domNode);
@@ -89,7 +89,7 @@
 		}
 
 
-		private function getSelectorParser()
+		private function getSelectorParser(): DomSelectorParser
 		{
 			if ($this->selectorParser === NULL) {
 				$this->selectorParser = new DomSelectorParser;

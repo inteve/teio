@@ -8,7 +8,7 @@ use Tester\Assert;
 require __DIR__ . '/../../bootstrap.php';
 
 
-function createDom()
+function createDom(): Html
 {
 	$dom = Html::el();
 	$dom->addHtml(Html::el('a'));

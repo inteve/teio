@@ -30,13 +30,16 @@
 		}
 
 
-		public function addPart()
+		public function addPart(): DomSelectorGroupPart
 		{
 			return $this->group->addPart();
 		}
 
 
-		public function requireTag($tag)
+		/**
+		 * @return $this
+		 */
+		public function requireTag(string $tag)
 		{
 			if ($this->tag !== NULL) {
 				throw new \Teio\InvalidStateException('Part already requires tag.');
@@ -47,20 +50,29 @@
 		}
 
 
-		public function requireId($id)
+		/**
+		 * @return $this
+		 */
+		public function requireId(string $id)
 		{
 			$this->ids[] = $id;
 			return $this;
 		}
 
 
-		public function requireClass($class)
+		/**
+		 * @return $this
+		 */
+		public function requireClass(string $class)
 		{
 			$this->classes[] = $class;
 			return $this;
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function requireFirstPosition()
 		{
 			$this->firstPosition = TRUE;
@@ -68,6 +80,9 @@
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function requireLastPosition()
 		{
 			$this->lastPosition = TRUE;

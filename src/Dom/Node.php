@@ -17,32 +17,35 @@
 		}
 
 
-		public function remove()
+		public function remove(): void
 		{
 			$this->getDomNode()->remove();
 		}
 
 
-		public function skipChildren($skipChildren = TRUE)
+		/**
+		 * @return $this
+		 */
+		public function skipChildren(bool $skipChildren = TRUE)
 		{
 			$this->getDomNode()->skipChildren($skipChildren);
 			return $this;
 		}
 
 
-		public function isHtml()
+		public function isHtml(): bool
 		{
 			return $this->getDomNode()->isHtml();
 		}
 
 
-		public function isText()
+		public function isText(): bool
 		{
 			return $this->getDomNode()->isText();
 		}
 
 
-		public function isElement()
+		public function isElement(): bool
 		{
 			return $this->getDomNode()->isElement();
 		}
@@ -66,45 +69,65 @@
 		}
 
 
-		public function setName($name)
+		/**
+		 * @return $this
+		 */
+		public function setName(?string $name)
 		{
 			$this->getDomNode()->setName($name);
 			return $this;
 		}
 
 
-		public function hasAttribute($attr)
+		public function hasAttribute(string $attr): bool
 		{
 			return $this->getDomNode()->hasAttribute($attr);
 		}
 
 
-		public function getAttribute($attr)
+		/**
+		 * @return scalar|bool|NULL|array<scalar|bool|NULL>
+		 */
+		public function getAttribute(string $attr)
 		{
 			return $this->getDomNode()->getAttribute($attr);
 		}
 
 
-		public function setAttribute($attr, $value)
+		/**
+		 * @param  scalar|scalar[] $value
+		 * @return $this
+		 */
+		public function setAttribute(string $attr, $value)
 		{
 			$this->getDomNode()->setAttribute($attr, $value);
 			return $this;
 		}
 
 
-		public function removeAttribute($attr)
+		/**
+		 * @return $this
+		 */
+		public function removeAttribute(string $attr)
 		{
 			$this->getDomNode()->removeAttribute($attr);
 			return $this;
 		}
 
 
-		public function getAttributes()
+		/**
+		 * @return array<string, scalar|scalar[]>
+		 */
+		public function getAttributes(): array
 		{
 			return $this->getDomNode()->getAttributes();
 		}
 
 
+		/**
+		 * @param  array<string, scalar|scalar[]> $attrs
+		 * @return $this
+		 */
 		public function setAttributes(array $attrs)
 		{
 			$this->getDomNode()->setAttributes($attrs);
@@ -112,52 +135,68 @@
 		}
 
 
-		public function hasClass($class)
+		public function hasClass(string $class): bool
 		{
 			return $this->getDomNode()->hasClass($class);
 		}
 
 
-		public function setHtml($html)
+		/**
+		 * @return $this
+		 */
+		public function setHtml(string $html)
 		{
 			$this->getDomNode()->setHtml($html);
 			return $this;
 		}
 
 
-		public function setText($text)
+		/**
+		 * @return $this
+		 */
+		public function setText(string $text)
 		{
 			$this->getDomNode()->setText($text);
 			return $this;
 		}
 
 
-		public function getText()
+		public function getText(): string
 		{
 			return $this->getDomNode()->getText();
 		}
 
 
-		public function addHtml($html)
+		/**
+		 * @return $this
+		 */
+		public function addHtml(string $html)
 		{
 			$this->getDomNode()->addHtml($html);
 			return $this;
 		}
 
 
-		public function addText($text)
+		/**
+		 * @return $this
+		 */
+		public function addText(string $text)
 		{
 			$this->getDomNode()->addText($text);
 			return $this;
 		}
 
 
-		public function hasChildren()
+		public function hasChildren(): bool
 		{
 			return $this->getDomNode()->hasChildren();
 		}
 
 
+		/**
+		 * @param  array<Html|string> $children
+		 * @return $this
+		 */
 		public function setChildren(array $children)
 		{
 			$this->getDomNode()->setChildren($children);
@@ -165,6 +204,9 @@
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function removeChildren()
 		{
 			$this->getDomNode()->removeChildren();
@@ -172,6 +214,9 @@
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function wrapBy(Html $wrapper)
 		{
 			$this->getDomNode()->wrapBy($wrapper);
@@ -179,6 +224,10 @@
 		}
 
 
+		/**
+		 * @param  Html|string $html
+		 * @return $this
+		 */
 		public function replaceByHtml($html)
 		{
 			$this->getDomNode()->replaceByHtml($html);
@@ -186,13 +235,19 @@
 		}
 
 
-		public function moveUp($levels = 1)
+		/**
+		 * @return $this
+		 */
+		public function moveUp(int $levels = 1)
 		{
 			$this->getDomNode()->moveUp($levels);
 			return $this;
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function moveToRoot()
 		{
 			$this->getDomNode()->moveToRoot();

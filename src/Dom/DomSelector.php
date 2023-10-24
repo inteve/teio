@@ -9,7 +9,7 @@
 		private $groups = [];
 
 
-		public function addGroup()
+		public function addGroup(): DomSelectorGroup
 		{
 			return $this->groups[] = new DomSelectorGroup;
 		}

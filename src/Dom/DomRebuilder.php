@@ -19,7 +19,7 @@
 		 *   element: Html|string,
 		 *   index: int,
 		 *   level: int,
-		 *   position: int,
+		 *   position: int|NULL,
 		 *   isLast: bool
 		 * }>
 		 */
@@ -33,7 +33,7 @@
 		}
 
 
-		public function rebuild()
+		public function rebuild(): void
 		{
 			$this->stack = [];
 			$cb = $this->cb;
@@ -76,6 +76,16 @@
 		}
 
 
+		/**
+		 * @param  int $childLevel
+		 * @return array<array{
+		 *   element: Html|string,
+		 *   index: int,
+		 *   level: int,
+		 *   position: int|NULL,
+		 *   isLast: bool
+		 * }>
+		 */
 		private function addChildrenFrom(Html $parent, $childLevel)
 		{
 			$toStack = [];

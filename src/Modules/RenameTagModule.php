@@ -14,13 +14,16 @@
 		private $replacements;
 
 
+		/**
+		 * @param array<string, string> $replacements
+		 */
 		public function __construct(array $replacements)
 		{
 			$this->replacements = $replacements;
 		}
 
 
-		public function process(Dom $dom)
+		public function process(Dom $dom): void
 		{
 			$dom->walk(function (Node $node) {
 				if ($node->isElement()) {

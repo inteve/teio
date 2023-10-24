@@ -42,7 +42,7 @@
 		}
 
 
-		public function addTextNode($htmlText)
+		public function addTextNode(string $htmlText): void
 		{
 			if (!$this->isTextAllowed($htmlText)) {
 				return;
@@ -52,7 +52,7 @@
 		}
 
 
-		public function addCommentNode($comment)
+		public function addCommentNode(string $comment): void
 		{
 			if (!$this->isCommentAllowed($comment)) {
 				return;
@@ -62,7 +62,7 @@
 		}
 
 
-		public function addEmptyNode($tag, $attrs)
+		public function addEmptyNode(string $tag, string $attrs): void
 		{
 			if ($this->domRules->canBeEmpty($tag)) {
 				$this->addVoidNode($tag, $attrs);
@@ -73,7 +73,7 @@
 		}
 
 
-		public function startNode($tag, $attrs)
+		public function startNode(string $tag, string $attrs): void
 		{
 			if ($this->domRules->canBeParent($tag)) {
 				$this->addParentNode($tag, $attrs);
@@ -84,7 +84,7 @@
 		}
 
 
-		public function endNode($tag)
+		public function endNode(string $tag): void
 		{
 			if ($this->currentElement->getName() === strtolower($tag)) {
 				$this->closeLastNode();
@@ -92,7 +92,7 @@
 		}
 
 
-		private function addParentNode($tag, $attrs)
+		private function addParentNode(string $tag, string $attrs): void
 		{
 			if (!$this->isElementAllowed($tag)) {
 				return;
@@ -106,7 +106,7 @@
 		}
 
 
-		private function addVoidNode($tag, $attrs)
+		private function addVoidNode(string $tag, string $attrs): void
 		{
 			if (!$this->isElementAllowed($tag)) {
 				return;
@@ -116,7 +116,7 @@
 		}
 
 
-		private function closeLastNode()
+		private function closeLastNode(): void
 		{
 			if (empty($this->stack)) {
 				throw new \Teio\InvalidStateException('There is no node to close.');
@@ -134,13 +134,13 @@
 		}
 
 
-		private function createElement($tag, $attrs)
+		private function createElement(string $tag, string $attrs): Html
 		{
 			return Html::el(strtolower($tag) . ' ' . $attrs);
 		}
 
 
-		private function isElementAllowed($tag)
+		private function isElementAllowed(string $tag): bool
 		{
 			$tag = strtolower($tag);
 
@@ -167,7 +167,7 @@
 		}
 
 
-		private function isCommentAllowed($comment)
+		private function isCommentAllowed(string $comment): bool
 		{
 			$res = $this->domRules->isCommentAllowed($comment, $this->stackPath);
 
@@ -182,7 +182,7 @@
 		}
 
 
-		private function isTextAllowed($text)
+		private function isTextAllowed(string $text): bool
 		{
 			$res = $this->domRules->isTextAllowed($text, $this->stackPath);
 

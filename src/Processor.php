@@ -12,6 +12,9 @@
 		private $domRules;
 
 
+		/**
+		 * @param IModule[] $modules
+		 */
 		public function __construct(array $modules, IDomRules $domRules = NULL)
 		{
 			$this->modules = $modules;
@@ -19,7 +22,7 @@
 		}
 
 
-		public function process($s)
+		public function process(string $s): string
 		{
 			$parser = new HtmlParser($this->domRules);
 			$dom = $parser->parse($s);

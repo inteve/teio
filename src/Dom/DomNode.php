@@ -33,6 +33,9 @@
 		private $wrappers = [];
 
 
+		/**
+		 * @param Html|string $node
+		 */
 		public function __construct($node, DomParentNodes $parents, DomPosition $position = NULL)
 		{
 			if ($node instanceof Html) {
@@ -61,7 +64,7 @@
 		/**
 		 * @internal
 		 */
-		public function detach()
+		public function detach(): void
 		{
 			$this->node = NULL;
 			$this->type = self::TYPE_DETACHED;
@@ -69,7 +72,7 @@
 		}
 
 
-		public function remove()
+		public function remove(): void
 		{
 			$this->node = NULL;
 			$this->type = self::TYPE_REMOVED;
@@ -77,19 +80,25 @@
 		}
 
 
-		public function canSkipChildren()
+		public function canSkipChildren(): bool
 		{
 			return $this->skipChildren;
 		}
 
 
-		public function skipChildren($skipChildren = TRUE)
+		/**
+		 * @return $this
+		 */
+		public function skipChildren(bool $skipChildren = TRUE)
 		{
 			$this->skipChildren = $skipChildren;
 			return $this;
 		}
 
 
+		/**
+		 * @return Html|string|NULL
+		 */
 		public function getNode()
 		{
 			return $this->node;
@@ -118,25 +127,25 @@
 		}
 
 
-		public function isHtml()
+		public function isHtml(): bool
 		{
 			return $this->type === self::TYPE_HTML;
 		}
 
 
-		public function isText()
+		public function isText(): bool
 		{
 			return $this->type === self::TYPE_TEXT;
 		}
 
 
-		public function isRemoved()
+		public function isRemoved(): bool
 		{
 			return $this->type === self::TYPE_REMOVED;
 		}
 
 
-		public function isElement()
+		public function isElement(): bool
 		{
 			return $this->isHtml() && $this->hasName();
 		}
@@ -151,55 +160,72 @@
 		}
 
 
-		/**
-		 * @return string|NULL
-		 */
-		public function getName()
+		public function getName(): ?string
 		{
 			$name = $this->getHtmlNode()->getName();
 			return !Helpers::isNameEmpty($name) ? $name : NULL;
 		}
 
 
-		public function setName($name)
+		/**
+		 * @return $this
+		 */
+		public function setName(?string $name)
 		{
 			$this->getHtmlNode()->setName($name);
 			return $this;
 		}
 
 
-		public function hasAttribute($attr)
+		public function hasAttribute(string $attr): bool
 		{
 			return isset($this->getHtmlNode()->attrs[$attr]);
 		}
 
 
-		public function getAttribute($attr)
+		/**
+		 * @return scalar|NULL|array<scalar|NULL>
+		 */
+		public function getAttribute(string $attr)
 		{
 			return $this->getHtmlNode()->getAttribute($attr);
 		}
 
 
-		public function setAttribute($attr, $value)
+		/**
+		 * @param  scalar|scalar[] $value
+		 * @return $this
+		 */
+		public function setAttribute(string $attr, $value)
 		{
 			$this->getHtmlNode()->setAttribute($attr, $value);
 			return $this;
 		}
 
 
-		public function removeAttribute($attr)
+		/**
+		 * @return $this
+		 */
+		public function removeAttribute(string $attr)
 		{
 			$this->getHtmlNode()->removeAttribute($attr);
 			return $this;
 		}
 
 
+		/**
+		 * @return array<string, scalar|scalar[]>
+		 */
 		public function getAttributes()
 		{
 			return $this->getHtmlNode()->attrs;
 		}
 
 
+		/**
+		 * @param  array<string, scalar|scalar[]> $attrs
+		 * @return $this
+		 */
 		public function setAttributes(array $attrs)
 		{
 			$this->getHtmlNode()->attrs = $attrs;
@@ -207,7 +233,7 @@
 		}
 
 
-		public function hasClass($class)
+		public function hasClass(string $class): bool
 		{
 			if (!$this->hasAttribute('class')) {
 				return FALSE;
@@ -218,21 +244,27 @@
 		}
 
 
-		public function setHtml($html)
+		/**
+		 * @return $this
+		 */
+		public function setHtml(string $html)
 		{
 			$this->getHtmlNode()->setHtml($html);
 			return $this;
 		}
 
 
-		public function setText($text)
+		/**
+		 * @return $this
+		 */
+		public function setText(string $text)
 		{
 			$this->getHtmlNode()->setText($text);
 			return $this;
 		}
 
 
-		public function getText()
+		public function getText(): string
 		{
 			if ($this->node instanceof Html) {
 				return $this->node->getText();
@@ -242,26 +274,36 @@
 		}
 
 
-		public function addHtml($html)
+		/**
+		 * @return $this
+		 */
+		public function addHtml(string $html)
 		{
 			$this->getHtmlNode()->addHtml($html);
 			return $this;
 		}
 
 
-		public function addText($text)
+		/**
+		 * @return $this
+		 */
+		public function addText(string $text)
 		{
 			$this->getHtmlNode()->addText($text);
 			return $this;
 		}
 
 
-		public function hasChildren()
+		public function hasChildren(): bool
 		{
 			return (bool) $this->getHtmlNode()->count();
 		}
 
 
+		/**
+		 * @param  array<Html|string> $children
+		 * @return $this
+		 */
 		public function setChildren(array $children)
 		{
 			$node = $this->getHtmlNode();
@@ -275,6 +317,9 @@
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function removeChildren()
 		{
 			$this->getHtmlNode()->removeChildren();
@@ -282,13 +327,13 @@
 		}
 
 
-		public function hasPosition()
+		public function hasPosition(): bool
 		{
 			return $this->position !== NULL;
 		}
 
 
-		public function isFirst()
+		public function isFirst(): bool
 		{
 			if (!$this->hasPosition()) {
 				throw new \Teio\InvalidStateException('Node has not position.');
@@ -298,7 +343,7 @@
 		}
 
 
-		public function isLast()
+		public function isLast(): bool
 		{
 			if (!$this->hasPosition()) {
 				throw new \Teio\InvalidStateException('Node has not position.');
@@ -308,6 +353,9 @@
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function wrapBy(Html $wrapper)
 		{
 			$this->wrappers[] = $wrapper;
@@ -324,6 +372,10 @@
 		}
 
 
+		/**
+		 * @param  Html|string $html
+		 * @return $this
+		 */
 		public function replaceByHtml($html)
 		{
 			$this->node = $html;
@@ -332,20 +384,23 @@
 		}
 
 
-		public function moveUp($levels = 1)
+		/**
+		 * @return $this
+		 */
+		public function moveUp(int $levels = 1)
 		{
 			$this->parents->moveUp($levels);
 			return $this;
 		}
 
 
-		public function moveToRoot()
+		public function moveToRoot(): void
 		{
 			$this->parents->moveToRoot();
 		}
 
 
-		public function canMoveUp()
+		public function canMoveUp(): bool
 		{
 			return $this->parents->canMoveUp();
 		}

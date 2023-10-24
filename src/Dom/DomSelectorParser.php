@@ -17,6 +17,7 @@
 
 		const IDENT_RE = '[a-z][a-z0-9-_]*';
 
+		/** @var Nette\Tokenizer\Tokenizer */
 		private $tokenizer;
 
 
@@ -47,7 +48,7 @@
 		}
 
 
-		private function parseGroup(DomSelectorGroup $group, Stream $stream)
+		private function parseGroup(DomSelectorGroup $group, Stream $stream): bool
 		{
 			$part = $group->addPart();
 			$stream->nextAll(self::WHITESPACE);

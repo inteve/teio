@@ -25,7 +25,8 @@
 
 
 		/**
-		 * @param  string[] $comment
+		 * @param  string $comment
+		 * @param  string[] $parents
 		 * @return int  see self::DISALLOW, self::ALLOW
 		 */
 		function isCommentAllowed($comment, array $parents);
@@ -33,6 +34,7 @@
 
 		/**
 		 * @param  string $text
+		 * @param  string[] $parents
 		 * @return int  see self::DISALLOW, self::ALLOW
 		 */
 		function isTextAllowed($text, array $parents);

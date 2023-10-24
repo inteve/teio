@@ -14,13 +14,16 @@
 		private $enabledTags;
 
 
+		/**
+		 * @param array<string, string[]|bool> $enabledTags
+		 */
 		public function __construct(array $enabledTags)
 		{
 			$this->enabledTags = $enabledTags;
 		}
 
 
-		public function process(Dom $dom)
+		public function process(Dom $dom): void
 		{
 			$dom->walk(function (Node $node) {
 				if ($node->isElement()) {

@@ -8,7 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 Tester\Environment::setup();
 
 
-function test($cb)
+function test(callable $cb): void
 {
 	$cb();
 }
@@ -16,7 +16,10 @@ function test($cb)
 
 class TeioAssert
 {
-	public static function sameNodeText(array $expected, Teio\Dom\Dom $dom)
+	/**
+	 * @param  string[] $expected
+	 */
+	public static function sameNodeText(array $expected, Teio\Dom\Dom $dom): void
 	{
 		$actual = [];
 
@@ -28,7 +31,7 @@ class TeioAssert
 	}
 
 
-	public static function checkModuleOutput($fixture, Teio\IModule $module)
+	public static function checkModuleOutput(string $fixture, Teio\IModule $module): void
 	{
 		$sourceFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.source.html';
 		$expectedFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.expected.html';

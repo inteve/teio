@@ -111,8 +111,13 @@
 		/**
 		 * Inspired by Texy
 		 * @param  string $s
-		 * @param  array $patterns
-		 * @return array
+		 * @param  array<string, string> $patterns
+		 * @return array<array{
+		 *   0: int,
+		 *   1: string,
+		 *   2: array<int, string>,
+		 *   3: int,
+		 * }>
 		 */
 		private function matchPatterns($s, array $patterns)
 		{
