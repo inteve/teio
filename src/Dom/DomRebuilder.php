@@ -14,7 +14,15 @@
 		/** @var callable */
 		private $cb;
 
-		/** @var array */
+		/**
+		 * @var array<array{
+		 *   element: Html|string,
+		 *   index: int,
+		 *   level: int,
+		 *   position: int,
+		 *   isLast: bool
+		 * }>
+		 */
 		private $stack = [];
 
 
@@ -30,11 +38,11 @@
 			$this->stack = [];
 			$cb = $this->cb;
 
-			$this->addChildrenFrom($this->dom, 1);
+			array_unshift($this->stack, ...$this->addChildrenFrom($this->dom, 1));
 			$this->dom->removeChildren();
 			$parents = new DomParentNodes(new DomParentNode($this->dom, NULL));
 
-			while (!empty($this->stack)) {
+			while (count($this->stack) > 0) {
 				$item = array_shift($this->stack);
 				$element = $item['element'];
 				$level = $item['level'];
@@ -60,7 +68,7 @@
 				$node->detach();
 
 				if (!$node->canSkipChildren() && ($newElement instanceof Html) && count($newElement) > 0) {
-					$this->addChildrenFrom($newElement, $level + 1);
+					array_unshift($this->stack, ...$this->addChildrenFrom($newElement, $level + 1));
 					$newElement->removeChildren();
 					$parents->addNode(new DomParentNode($newElement, $position));
 				}
@@ -95,6 +103,6 @@
 				$item['isLast'] = TRUE;
 			}
 
-			array_unshift($this->stack, ...$toStack);
+			return $toStack;
 		}
 	}

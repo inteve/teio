@@ -5,7 +5,7 @@
 
 	class DomSelector
 	{
-		/** @var DomSelectorGroup */
+		/** @var DomSelectorGroup[] */
 		private $groups = [];
 
 

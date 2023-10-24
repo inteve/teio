@@ -7,7 +7,7 @@
 
 	class Node
 	{
-		/** @var DomNode */
+		/** @var DomNode|NULL */
 		private $domNode;
 
 

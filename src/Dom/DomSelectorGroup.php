@@ -8,7 +8,7 @@
 		/** @var DomSelector */
 		private $selector;
 
-		/** @var DomSelectorGroupPart */
+		/** @var DomSelectorGroupPart[] */
 		private $parts = [];
 
 

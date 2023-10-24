@@ -14,7 +14,7 @@
 		const TYPE_DETACHED = 3;
 		const TYPE_REMOVED = 4;
 
-		/** @var Html|string */
+		/** @var Html|string|NULL */
 		private $node;
 
 		/** @var DomParentNodes|NULL */
