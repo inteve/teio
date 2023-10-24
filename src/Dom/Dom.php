@@ -40,7 +40,7 @@
 
 
 		/**
-		 * @param  string  CSS selector
+		 * @param  string $selector  CSS selector
 		 * @return void
 		 */
 		public function find($selector, callable $cb)

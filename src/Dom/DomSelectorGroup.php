@@ -34,7 +34,12 @@
 			}
 
 			$selectorParts = $this->parts;
-			$pathParts = $node->getParents();
+			$pathParts = [];
+
+			if ($node instanceof DomNode) {
+				$pathParts = $node->getParents();
+			}
+
 			array_shift($pathParts); // remove root
 			$pathParts[] = $node;
 

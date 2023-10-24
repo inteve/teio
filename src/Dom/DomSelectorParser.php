@@ -35,7 +35,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $selector
 		 * @return DomSelector
 		 */
 		public function parse($selector)

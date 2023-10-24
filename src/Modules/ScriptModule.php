@@ -23,7 +23,7 @@
 
 		public function process(Dom $dom)
 		{
-			$nodes = $dom->findTextNodes(function (Node $node) {
+			$dom->findTextNodes(function (Node $node) {
 				$newContent = Html::el();
 				$text = $node->getText();
 				$matches = Strings::matchAll($text, '#\{\{((?:[^}]++|[}])+)\}\}()#U', PREG_OFFSET_CAPTURE);

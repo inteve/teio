@@ -23,8 +23,8 @@
 
 
 		/**
-		 * @param  string
-		 * @return Html
+		 * @param  string $s
+		 * @return Dom\Dom
 		 */
 		public function parse($s)
 		{
@@ -110,8 +110,8 @@
 
 		/**
 		 * Inspired by Texy
-		 * @param  string
-		 * @param  array
+		 * @param  string $s
+		 * @param  array $patterns
 		 * @return array
 		 */
 		private function matchPatterns($s, array $patterns)

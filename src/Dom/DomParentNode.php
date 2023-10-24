@@ -88,7 +88,7 @@
 
 
 		/**
-		 * @param  Html|string
+		 * @param  Html|string $html
 		 * @return void
 		 */
 		public function appendChild($html)

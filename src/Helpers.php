@@ -11,7 +11,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $html
 		 * @return string
 		 */
 		public static function htmlToText($html)
@@ -21,7 +21,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $text
 		 * @return string
 		 */
 		public static function textToHtml($text)
@@ -31,7 +31,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $name
 		 * @return bool
 		 */
 		public static function isNameEmpty($name)
@@ -41,7 +41,7 @@
 
 
 		/**
-		 * @param  mixed
+		 * @param  scalar|NULL|array<scalar|NULL> $value
 		 * @return string
 		 */
 		public static function formatAttributeValue($value)

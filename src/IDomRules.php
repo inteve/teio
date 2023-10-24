@@ -11,36 +11,36 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $tagName
 		 * @return bool
 		 */
 		function canBeEmpty($tagName);
 
 
 		/**
-		 * @param  string
+		 * @param  string $tagName
 		 * @return bool
 		 */
 		function canBeParent($tagName);
 
 
 		/**
-		 * @param  string[]
+		 * @param  string[] $comment
 		 * @return int  see self::DISALLOW, self::ALLOW
 		 */
 		function isCommentAllowed($comment, array $parents);
 
 
 		/**
-		 * @param  string[]
+		 * @param  string[] $text
 		 * @return int  see self::DISALLOW, self::ALLOW
 		 */
 		function isTextAllowed($text, array $parents);
 
 
 		/**
-		 * @param  string
-		 * @param  string[]
+		 * @param  string $tagName
+		 * @param  string[] $parents
 		 * @return int  see self::DISALLOW, self::ALLOW, self::CLOSE_PARENT
 		 */
 		function isElementAllowed($tagName, array $parents);

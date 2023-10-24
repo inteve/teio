@@ -23,7 +23,7 @@
 		public function process(Dom $dom)
 		{
 			foreach ($this->blocks as $selector) {
-				$nodes = $dom->find($selector, function (Node $node) {
+				$dom->find($selector, function (Node $node) {
 					$node->moveToRoot();
 				});
 			}
