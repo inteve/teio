@@ -21,19 +21,14 @@ composer require teio/teio
 Inteve\Teio requires PHP 7.4.0 or newer.
 
 
-## Usage # OR Tips, Writing tests, ...
+## Usage
 
 ``` php
-<?php
-	$git = new Cz\Git\Git;
-	$filename = __DIR__ . '/my-file.txt';
-	file_put_contents($filename, "Lorem ipsum\ndolor\nsit amet");
+$teio = new Teio\Processor(
+	modules: $modules
+);
 
-	if($git->isChanges())
-	{
-		$git->add($filename)
-			->commit('Added a file.');
-	}
+$html = $teio->process($html);
 ```
 
 ------------------------------
