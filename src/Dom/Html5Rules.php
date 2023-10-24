@@ -3,10 +3,10 @@
 	namespace Teio\Dom;
 
 	use Nette\Utils\Html;
-	use Teio\IDomRules;
+	use Teio\DomRules;
 
 
-	class Html5Rules implements IDomRules
+	class Html5Rules implements DomRules
 	{
 		const MUST_BE_IN = 0;
 		const MUST_BE_UNDER = 1;

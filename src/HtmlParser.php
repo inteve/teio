@@ -12,11 +12,11 @@
 		const TYPE_COMMENT = 'comment';
 
 
-		/** @var IDomRules */
+		/** @var DomRules */
 		private $domRules;
 
 
-		public function __construct(IDomRules $domRules)
+		public function __construct(DomRules $domRules)
 		{
 			$this->domRules = $domRules;
 		}

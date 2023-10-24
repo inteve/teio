@@ -8,14 +8,14 @@
 		/** @var Module[] */
 		private $modules;
 
-		/** @var IDomRules */
+		/** @var DomRules */
 		private $domRules;
 
 
 		/**
 		 * @param Module[] $modules
 		 */
-		public function __construct(array $modules, IDomRules $domRules = NULL)
+		public function __construct(array $modules, DomRules $domRules = NULL)
 		{
 			$this->modules = $modules;
 			$this->domRules = $domRules !== NULL ? $domRules : new Dom\Html5Rules;

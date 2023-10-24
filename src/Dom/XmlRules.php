@@ -2,10 +2,10 @@
 
 	namespace Teio\Dom;
 
-	use Teio\IDomRules;
+	use Teio\DomRules;
 
 
-	class XmlRules implements IDomRules
+	class XmlRules implements DomRules
 	{
 		public function canBeEmpty($tagName)
 		{

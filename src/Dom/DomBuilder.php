@@ -4,12 +4,12 @@
 
 	use Nette\Utils\Html;
 	use Nette\Utils\Strings;
-	use Teio\IDomRules;
+	use Teio\DomRules;
 
 
 	class DomBuilder
 	{
-		/** @var IDomRules */
+		/** @var DomRules */
 		private $domRules;
 
 		/** @var Html */
@@ -25,7 +25,7 @@
 		private $stackPath = [];
 
 
-		public function __construct(IDomRules $domRules)
+		public function __construct(DomRules $domRules)
 		{
 			$this->domRules = $domRules;
 			$this->dom = Html::el();
@@ -147,7 +147,7 @@
 			do {
 				$res = $this->domRules->isElementAllowed($tag, $this->stackPath);
 
-				if ($res === IDomRules::CLOSE_PARENT) {
+				if ($res === DomRules::CLOSE_PARENT) {
 					if (empty($this->stack)) {
 						throw new \Teio\InvalidStateException('You cannot close root.');
 					}
@@ -155,10 +155,10 @@
 					$this->closeLastNode();
 					continue;
 
-				} elseif ($res === IDomRules::DISALLOW) {
+				} elseif ($res === DomRules::DISALLOW) {
 					return FALSE;
 
-				} elseif ($res === IDomRules::ALLOW) {
+				} elseif ($res === DomRules::ALLOW) {
 					return TRUE;
 				}
 
@@ -171,10 +171,10 @@
 		{
 			$res = $this->domRules->isCommentAllowed($comment, $this->stackPath);
 
-			if ($res === IDomRules::DISALLOW) {
+			if ($res === DomRules::DISALLOW) {
 				return FALSE;
 
-			} elseif ($res === IDomRules::ALLOW) {
+			} elseif ($res === DomRules::ALLOW) {
 				return TRUE;
 			}
 
@@ -186,10 +186,10 @@
 		{
 			$res = $this->domRules->isTextAllowed($text, $this->stackPath);
 
-			if ($res === IDomRules::DISALLOW) {
+			if ($res === DomRules::DISALLOW) {
 				return FALSE;
 
-			} elseif ($res === IDomRules::ALLOW) {
+			} elseif ($res === DomRules::ALLOW) {
 				return TRUE;
 			}
 

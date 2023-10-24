@@ -3,7 +3,7 @@
 	namespace Teio;
 
 
-	interface IDomRules
+	interface DomRules
 	{
 		const DISALLOW = 0;
 		const ALLOW = 1;
