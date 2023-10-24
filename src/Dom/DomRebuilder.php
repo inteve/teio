@@ -72,6 +72,7 @@
 		{
 			$toStack = [];
 			$position = 0;
+			$item = NULL;
 
 			foreach ($parent as $index => $child) {
 				$childPosition = NULL;
