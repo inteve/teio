@@ -20,7 +20,7 @@
 		/**
 		 * @return bool
 		 */
-		public function matchNode(ISelectableNode $node)
+		public function matchNode(SelectableNode $node)
 		{
 			if (!$node->isElement() || empty($this->parts)) {
 				return FALSE;
@@ -78,7 +78,7 @@
 		}
 
 
-		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, ISelectableNode $node = NULL): bool
+		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, SelectableNode $node = NULL): bool
 		{
 			if ($selectorPart === NULL || $node === NULL) {
 				return FALSE;

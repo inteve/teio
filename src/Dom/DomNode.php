@@ -8,7 +8,7 @@
 	use Teio\Helpers;
 
 
-	class DomNode implements ISelectableNode
+	class DomNode implements SelectableNode
 	{
 		const TYPE_HTML = 0;
 		const TYPE_TEXT = 1;

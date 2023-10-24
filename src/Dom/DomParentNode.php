@@ -8,7 +8,7 @@
 	use Teio\Helpers;
 
 
-	class DomParentNode implements ISelectableNode
+	class DomParentNode implements SelectableNode
 	{
 		/** @var Html */
 		private $node;

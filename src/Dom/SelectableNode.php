@@ -5,7 +5,7 @@
 	namespace Teio\Dom;
 
 
-	interface ISelectableNode
+	interface SelectableNode
 	{
 		function isElement(): bool;
 

@@ -20,7 +20,7 @@
 		/**
 		 * @return bool
 		 */
-		public function matchNode(ISelectableNode $node)
+		public function matchNode(SelectableNode $node)
 		{
 			foreach ($this->groups as $group) {
 				if (!$node->isElement()) {
