@@ -20,12 +20,10 @@
 		}
 
 
-		/**
-		 * @return DomParentNode
-		 */
-		public function getLastNode()
+		public function getLastNode(): ?DomParentNode
 		{
-			return end($this->nodes);
+			$v = end($this->nodes);
+			return $v ? $v : NULL;
 		}
 
 

@@ -125,15 +125,14 @@
 			$priority = 0;
 
 			foreach ($patterns as $name => $pattern) {
-				/** @var array<int, array<int, array{string, int}>>|null $ms */
+				/** @var array<int, array<int, array{0: string, 1: int}>>|null $ms */
 				$ms = Strings::matchAll($s, $pattern, PREG_OFFSET_CAPTURE);
 
 				foreach ((array) $ms as $m) {
 					$offset = $m[0][1];
-
-					foreach ($m as $k => $v) {
-						$m[$k] = $v[0];
-					}
+					$m = array_map(function ($v) {
+						return $v[0];
+					}, $m);
 
 					$matches[] = [$offset, $name, $m, $priority];
 				}
@@ -141,7 +140,7 @@
 				$priority++;
 			}
 
-			unset($name, $pattern, $ms, $m, $k, $v);
+			unset($name, $pattern, $ms, $m);
 
 			usort($matches, function ($a, $b): int {
 				if ($a[0] === $b[0]) {
