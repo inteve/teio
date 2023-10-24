@@ -4,9 +4,6 @@
 
 	namespace Teio\Dom;
 
-	use Nette\Utils\Html;
-	use Teio\Helpers;
-
 
 	class DomPosition
 	{

@@ -4,8 +4,6 @@
 
 	namespace Teio\Dom;
 
-	use Teio\Helpers;
-
 
 	class DomParentNodes
 	{

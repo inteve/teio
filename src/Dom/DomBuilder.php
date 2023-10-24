@@ -5,7 +5,6 @@
 	namespace Teio\Dom;
 
 	use Nette\Utils\Html;
-	use Nette\Utils\Strings;
 	use Teio\DomRules;
 
 

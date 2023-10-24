@@ -4,7 +4,6 @@
 
 	namespace Teio\Modules;
 
-	use Nette\Utils\Html;
 	use Teio\Dom\Dom;
 	use Teio\Dom\Node;
 	use Teio\Module;
