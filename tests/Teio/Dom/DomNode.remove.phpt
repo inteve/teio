@@ -6,7 +6,7 @@ use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
 
-$parser = new HtmlParser;
+$parser = new HtmlParser(new Teio\Dom\XmlRules);
 $dom = $parser->parse('
 	<a>
 		<a1>

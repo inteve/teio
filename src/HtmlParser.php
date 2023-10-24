@@ -12,6 +12,16 @@
 		const TYPE_COMMENT = 'comment';
 
 
+		/** @var IDomRules */
+		private $domRules;
+
+
+		public function __construct(IDomRules $domRules)
+		{
+			$this->domRules = $domRules;
+		}
+
+
 		/**
 		 * @param  string
 		 * @return Html
@@ -26,7 +36,7 @@
 				self::TYPE_COMMENT => '#<!--(.*?)-->#is',
 			]);
 
-			$domBuilder = new Dom\DomBuilder;
+			$domBuilder = new Dom\DomBuilder($this->domRules);
 			$lastOffset = 0;
 			// TODO: inline vs block elements
 
@@ -55,10 +65,6 @@
 
 					if (!$isEmpty && substr($mAttr, -1) === '/') { // uvizlo v $mAttr?
 						$mAttr = substr($mAttr, 0, -1);
-						$isEmpty = TRUE;
-					}
-
-					if (!$isEmpty && isset(Html::$emptyElements[$mTag])) {
 						$isEmpty = TRUE;
 					}
 

@@ -8,16 +8,20 @@
 		/** @var IModule[] */
 		private $modules;
 
+		/** @var IDomRules */
+		private $domRules;
 
-		public function __construct(array $modules = [])
+
+		public function __construct(array $modules, IDomRules $domRules = NULL)
 		{
 			$this->modules = $modules;
+			$this->domRules = $domRules !== NULL ? $domRules : new Dom\Html5Rules;
 		}
 
 
 		public function process($s)
 		{
-			$parser = new HtmlParser;
+			$parser = new HtmlParser($this->domRules);
 			$html = $parser->parse($s);
 			$dom = new Dom\Dom($html);
 

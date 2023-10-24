@@ -6,7 +6,7 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
-$parser = new HtmlParser;
+$parser = new HtmlParser(new Teio\Dom\Html5Rules);
 
 
 test(function () use ($parser) {
@@ -27,4 +27,12 @@ test(function () use ($parser) {
 		->addText(" \xc2\xa0 here");
 
 	Assert::same((string) $dom, $parser->parse('<a href="http://example.com">link &gt;<br><b>to</b> &nbsp; here</a>')->toHtml());
+});
+
+
+test(function () use ($parser) {
+	Assert::same(
+		'<a href="#"><img src="#img" alt="image"><b>hello</b></a>',
+		$parser->parse('<a href="#"><img src="#img" alt="image"><b>hello</b></a>')->toHtml()
+	);
 });

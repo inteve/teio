@@ -33,7 +33,7 @@ class TeioAssert
 		$sourceFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.source.html';
 		$expectedFile = __DIR__ . '/Teio/fixtures/' . $fixture . '.expected.html';
 
-		$parser = new Teio\HtmlParser;
+		$parser = new Teio\HtmlParser(new Teio\Dom\XmlRules);
 		$dom = $parser->parse(file_get_contents($sourceFile));
 		$module->process($dom);
 		Assert::matchFile($expectedFile, $dom->toHtml());
