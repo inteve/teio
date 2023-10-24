@@ -8,9 +8,6 @@
 		/** @var DomSelectorGroup */
 		private $group;
 
-		/** @var DomSelectorGroupPart[] */
-		private $parts = [];
-
 		/** @var string|NULL */
 		private $tag;
 

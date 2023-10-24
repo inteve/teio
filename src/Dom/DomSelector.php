@@ -11,7 +11,7 @@
 
 		public function addGroup()
 		{
-			return $this->groups[] = new DomSelectorGroup($this);
+			return $this->groups[] = new DomSelectorGroup;
 		}
 
 

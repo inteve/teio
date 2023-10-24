@@ -5,17 +5,8 @@
 
 	class DomSelectorGroup
 	{
-		/** @var DomSelector */
-		private $selector;
-
 		/** @var DomSelectorGroupPart[] */
 		private $parts = [];
-
-
-		public function __construct(DomSelector $selector)
-		{
-			$this->selector = $selector;
-		}
 
 
 		public function addPart()

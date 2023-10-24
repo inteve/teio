@@ -31,7 +31,7 @@
 
 
 		/**
-		 * @param  string $name
+		 * @param  string|NULL $name
 		 * @return bool
 		 */
 		public static function isNameEmpty($name)
