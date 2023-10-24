@@ -58,6 +58,9 @@
 		}
 
 
+		/**
+		 * @phpstan-assert-if-true !NULL $this->position
+		 */
 		public function hasPosition(): bool
 		{
 			return $this->position !== NULL;

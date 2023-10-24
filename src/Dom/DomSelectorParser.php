@@ -55,13 +55,13 @@
 
 			while ($stream->nextToken()) {
 				if ($stream->isCurrent(self::IDENT)) {
-					$part->requireTag($stream->currentValue());
+					$part->requireTag((string) $stream->currentValue());
 
 				} elseif ($stream->isCurrent(self::CLASSNAME)) {
-					$part->requireClass(substr($stream->currentValue(), 1));
+					$part->requireClass(substr((string) $stream->currentValue(), 1));
 
 				} elseif ($stream->isCurrent(self::ID)) {
-					$part->requireId(substr($stream->currentValue(), 1));
+					$part->requireId(substr((string) $stream->currentValue(), 1));
 
 				} elseif ($stream->isCurrent(self::PSEUDOCLASS)) {
 					$value = $stream->currentValue();

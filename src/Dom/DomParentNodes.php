@@ -7,7 +7,7 @@
 
 	class DomParentNodes
 	{
-		/** @var DomParentNode[] */
+		/** @var non-empty-array<DomParentNode> */
 		private $nodes;
 
 		/** @var DomParentNode[] */
@@ -20,15 +20,14 @@
 		}
 
 
-		public function getLastNode(): ?DomParentNode
+		public function getLastNode(): DomParentNode
 		{
-			$v = end($this->nodes);
-			return $v ? $v : NULL;
+			return end($this->nodes);
 		}
 
 
 		/**
-		 * @return DomParentNode[]
+		 * @return non-empty-array<DomParentNode>
 		 */
 		public function getNodes(): array
 		{
@@ -81,7 +80,13 @@
 			}
 
 			$endedNodes = array_slice($this->nodes, $levels * -1);
-			$this->nodes = array_slice($this->nodes, 0, count($this->nodes) - count($endedNodes));
+			$newNodes = array_slice($this->nodes, 0, count($this->nodes) - count($endedNodes));
+
+			if (count($newNodes) === 0) {
+				throw new \Teio\InvalidStateException('No new nodes.');
+			}
+
+			$this->nodes = $newNodes;
 			array_unshift($this->endedNodes, ...$endedNodes);
 		}
 
@@ -93,7 +98,13 @@
 			}
 
 			$endedNodes = array_slice($this->nodes, 1);
-			$this->nodes = array_slice($this->nodes, 0, 1);
+			$newNodes = array_slice($this->nodes, 0, 1);
+
+			if (count($newNodes) === 0) {
+				throw new \Teio\InvalidStateException('No new nodes.');
+			}
+
+			$this->nodes = $newNodes;
 			array_unshift($this->endedNodes, ...$endedNodes);
 		}
 

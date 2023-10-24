@@ -60,10 +60,7 @@
 		}
 
 
-		/**
-		 * @return string|NULL
-		 */
-		public function getName()
+		public function getName(): string
 		{
 			return $this->getDomNode()->getName();
 		}
@@ -72,7 +69,7 @@
 		/**
 		 * @return $this
 		 */
-		public function setName(?string $name)
+		public function setName(string $name)
 		{
 			$this->getDomNode()->setName($name);
 			return $this;

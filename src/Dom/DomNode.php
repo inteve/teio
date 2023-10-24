@@ -97,10 +97,14 @@
 
 
 		/**
-		 * @return Html|string|NULL
+		 * @return Html|string
 		 */
 		public function getNode()
 		{
+			if ($this->node === NULL) {
+				throw new \Teio\InvalidStateException('Node is detached.');
+			}
+
 			return $this->node;
 		}
 
@@ -160,17 +164,17 @@
 		}
 
 
-		public function getName(): ?string
+		public function getName(): string
 		{
 			$name = $this->getHtmlNode()->getName();
-			return !Helpers::isNameEmpty($name) ? $name : NULL;
+			return !Helpers::isNameEmpty($name) ? $name : '';
 		}
 
 
 		/**
 		 * @return $this
 		 */
-		public function setName(?string $name)
+		public function setName(string $name)
 		{
 			$this->getHtmlNode()->setName($name);
 			return $this;
@@ -270,7 +274,7 @@
 				return $this->node->getText();
 			}
 
-			return Helpers::htmlToText($this->node);
+			return $this->node !== NULL ? Helpers::htmlToText($this->node) : '';
 		}
 
 
@@ -327,6 +331,9 @@
 		}
 
 
+		/**
+		 * @phpstan-assert-if-true !NULL $this->position
+		 */
 		public function hasPosition(): bool
 		{
 			return $this->position !== NULL;
@@ -389,6 +396,10 @@
 		 */
 		public function moveUp(int $levels = 1)
 		{
+			if ($this->parents === NULL) {
+				throw new \Teio\InvalidStateException('Node is detached.');
+			}
+
 			$this->parents->moveUp($levels);
 			return $this;
 		}
@@ -396,12 +407,20 @@
 
 		public function moveToRoot(): void
 		{
+			if ($this->parents === NULL) {
+				throw new \Teio\InvalidStateException('Node is detached.');
+			}
+
 			$this->parents->moveToRoot();
 		}
 
 
 		public function canMoveUp(): bool
 		{
+			if ($this->parents === NULL) {
+				throw new \Teio\InvalidStateException('Node is detached.');
+			}
+
 			return $this->parents->canMoveUp();
 		}
 
