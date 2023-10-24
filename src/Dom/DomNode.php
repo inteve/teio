@@ -188,11 +188,13 @@
 
 
 		/**
-		 * @return scalar|NULL|array<scalar|NULL>
+		 * @return scalar|scalar[]
 		 */
 		public function getAttribute(string $attr)
 		{
-			return $this->getHtmlNode()->getAttribute($attr);
+			$value = $this->getHtmlNode()->getAttribute($attr);
+			assert(is_array($value) || is_scalar($value));
+			return $value;
 		}
 
 
@@ -222,7 +224,14 @@
 		 */
 		public function getAttributes()
 		{
-			return $this->getHtmlNode()->attrs;
+			$attrs = [];
+
+			foreach ($this->getHtmlNode()->attrs as $name => $value) {
+				assert(is_array($value) || is_scalar($value));
+				$attrs[$name] = $value;
+			}
+
+			return $attrs;
 		}
 
 

@@ -43,7 +43,9 @@
 
 		public function getAttribute(string $attr)
 		{
-			return $this->node->getAttribute($attr);
+			$value = $this->node->getAttribute($attr);
+			assert(is_array($value) || is_scalar($value));
+			return $value;
 		}
 
 
