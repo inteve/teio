@@ -16,6 +16,7 @@
 		const PSEUDOCLASS = 3;
 		const WHITESPACE = 4;
 		const COMMA = 5;
+		const ATTRIBUTE = 6;
 
 		const IDENT_RE = '[a-z][a-z0-9-_]*';
 
@@ -30,6 +31,7 @@
 				self::CLASSNAME => '\.' . self::IDENT_RE,
 				self::ID => '\#' . self::IDENT_RE,
 				self::PSEUDOCLASS => ':' . self::IDENT_RE,
+				self::ATTRIBUTE => '\[' . self::IDENT_RE . '\]',
 				self::WHITESPACE => '\s+',
 				self::COMMA => ',',
 			]);
@@ -64,6 +66,9 @@
 
 				} elseif ($stream->isCurrent(self::ID)) {
 					$part->requireId(substr((string) $stream->currentValue(), 1));
+
+				} elseif ($stream->isCurrent(self::ATTRIBUTE)) {
+					$part->requireAttribute(substr((string) $stream->currentValue(), 1, -1));
 
 				} elseif ($stream->isCurrent(self::PSEUDOCLASS)) {
 					$value = $stream->currentValue();

@@ -19,6 +19,9 @@
 		/** @var string[] */
 		private $classes = [];
 
+		/** @var string[] */
+		private $attributes = [];
+
 		/** @var bool */
 		private $firstPosition = FALSE;
 
@@ -75,6 +78,16 @@
 		/**
 		 * @return $this
 		 */
+		public function requireAttribute(string $attribute)
+		{
+			$this->attributes[] = $attribute;
+			return $this;
+		}
+
+
+		/**
+		 * @return $this
+		 */
 		public function requireFirstPosition()
 		{
 			$this->firstPosition = TRUE;
@@ -113,6 +126,12 @@
 
 			foreach ($this->classes as $class) {
 				if (!$node->hasClass($class)) {
+					return FALSE;
+				}
+			}
+
+			foreach ($this->attributes as $attribute) {
+				if (!$node->hasAttribute($attribute)) {
 					return FALSE;
 				}
 			}

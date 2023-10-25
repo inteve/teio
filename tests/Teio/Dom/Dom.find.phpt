@@ -17,7 +17,7 @@ function createDom(): Html
 	$dom->addHtml(
 		Html::el('table')
 			->addHtml(
-				Html::el('tr')->class('row')
+				Html::el('tr')->class('row')->data('js', 'data')
 					->addHtml(Html::el('td'))
 					->addHtml(Html::el('td'))
 					->addHtml(
@@ -68,6 +68,28 @@ test(function () {
 	$expectedDom = createDom();
 	$children = $expectedDom->getChildren();
 	$children[1]->matched(TRUE);
+
+	Assert::same((string) $expectedDom, $dom->toHtml());
+});
+
+
+test(function () {
+	$dom = new Dom(createDom());
+
+	$selector = new DomSelector;
+	$selector->addGroup()
+		->addPart()
+			->requireTag('table');
+
+	$dom->find('[data-js]', function (Teio\Dom\Node $node) {
+		$node->setAttribute('matched', TRUE);
+	});
+
+	$expectedDom = createDom();
+	$domChildren = $expectedDom->getChildren();
+	$table = $domChildren[1];
+	$rows = $table->getChildren();
+	$rows[0]->matched(TRUE);
 
 	Assert::same((string) $expectedDom, $dom->toHtml());
 });
