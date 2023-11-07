@@ -143,6 +143,26 @@
 		/**
 		 * @return $this
 		 */
+		public function addClass(string $class)
+		{
+			$this->getDomNode()->addClass($class);
+			return $this;
+		}
+
+
+		/**
+		 * @return $this
+		 */
+		public function removeClass(string $class)
+		{
+			$this->getDomNode()->removeClass($class);
+			return $this;
+		}
+
+
+		/**
+		 * @return $this
+		 */
 		public function setHtml(string $html)
 		{
 			$this->getDomNode()->setHtml($html);

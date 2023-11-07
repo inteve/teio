@@ -5,6 +5,7 @@
 	namespace Teio\Dom;
 
 	use Nette\Utils\Html;
+	use Nette\Utils\Strings;
 	use Teio\Helpers;
 
 
@@ -262,6 +263,38 @@
 		/**
 		 * @return $this
 		 */
+		public function addClass(string $class)
+		{
+			$htmlNode = $this->getHtmlNode();
+			$classList = self::attributeValueToList($htmlNode->getAttribute('class'));
+			$classList[] = $class;
+			$htmlNode->setAttribute('class', array_unique($classList));
+			return $this;
+		}
+
+
+		/**
+		 * @return $this
+		 */
+		public function removeClass(string $class)
+		{
+			$htmlNode = $this->getHtmlNode();
+			$classList = self::attributeValueToList($htmlNode->getAttribute('class'));
+
+			foreach ($classList as $k => $currentClass) {
+				if ($currentClass === $class) {
+					unset($classList[$k]);
+				}
+			}
+
+			$htmlNode->setAttribute('class', array_unique($classList));
+			return $this;
+		}
+
+
+		/**
+		 * @return $this
+		 */
 		public function setHtml(string $html)
 		{
 			$this->getHtmlNode()->setHtml($html);
@@ -455,5 +488,43 @@
 			}
 
 			throw new \Teio\InvalidStateException('Node must be instance of Html, ' . gettype($this->node) . ' given.');
+		}
+
+
+		/**
+		 * @param  mixed $value
+		 * @return scalar[]
+		 */
+		private static function attributeValueToList($value)
+		{
+			if (is_string($value)) {
+				$value = explode(' ', $value);
+				$value = array_map(function ($val) {
+					return Strings::trim($val);
+				}, $value);
+				$value = array_filter($value, function ($val) {
+					return $val !== '';
+				});
+				return $value;
+
+			} elseif (is_scalar($value)) {
+				return [$value];
+
+			} elseif (is_array($value)) {
+				$tmp = [];
+
+				foreach ($value as $name => $option) {
+					if (is_bool($option) && $option) {
+						$tmp[] = (string) $name;
+
+					} else {
+						$tmp[] = (string) $option;
+					}
+				}
+
+				return $tmp;
+			}
+
+			throw new \Teio\InvalidArgumentException("Invalid attribute value.");
 		}
 	}
