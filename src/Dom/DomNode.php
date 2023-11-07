@@ -523,6 +523,9 @@
 				}
 
 				return $tmp;
+
+			} elseif ($value === NULL) {
+				return [];
 			}
 
 			throw new \Teio\InvalidArgumentException("Invalid attribute value.");
