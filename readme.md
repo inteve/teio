@@ -1,8 +1,8 @@
 # Inteve\Teio
 
 [![Build Status](https://github.com/inteve/teio/workflows/Build/badge.svg)](https://github.com/inteve/teio/actions)
-[![Downloads this Month](https://img.shields.io/packagist/dm/inteve/teio.svg)](https://packagist.org/packages/inteve/teio)
-[![Latest Stable Version](https://poser.pugx.org/inteve/teio/v/stable)](https://github.com/inteve/teio/releases)
+[![Downloads this Month](https://img.shields.io/packagist/dm/teio/teio.svg)](https://packagist.org/packages/teio/teio)
+[![Latest Stable Version](https://poser.pugx.org/teio/teio/v/stable)](https://github.com/inteve/teio/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/inteve/teio/blob/master/license.md)
 
 Powerful HTML processor.
