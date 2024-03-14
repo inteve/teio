@@ -46,3 +46,11 @@ test(function () use ($parser) {
 		$parser->parse('<a href="?page=1&amp;sort=desc">test</a>')->toHtml()
 	);
 });
+
+
+test(function () use ($parser) {
+	Assert::same(
+		'<a hidden>test</a>',
+		$parser->parse('<a hidden>test</a>')->toHtml()
+	);
+});
