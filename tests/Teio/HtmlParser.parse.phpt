@@ -38,3 +38,11 @@ test(function () use ($parser) {
 		$parser->parse('<a href="#"><img src="#img" alt="image"><b>hello</b></a>')->toHtml()
 	);
 });
+
+
+test(function () use ($parser) {
+	Assert::same(
+		'<a href="?page=1&amp;sort=desc">test</a>',
+		$parser->parse('<a href="?page=1&amp;sort=desc">test</a>')->toHtml()
+	);
+});

@@ -63,7 +63,10 @@
 		}
 
 
-		public function addEmptyNode(string $tag, string $attrs): void
+		/**
+		 * @param  array<string, scalar|NULL> $attrs
+		 */
+		public function addEmptyNode(string $tag, array $attrs): void
 		{
 			if ($this->domRules->canBeEmpty($tag)) {
 				$this->addVoidNode($tag, $attrs);
@@ -74,7 +77,10 @@
 		}
 
 
-		public function startNode(string $tag, string $attrs): void
+		/**
+		 * @param  array<string, scalar|NULL> $attrs
+		 */
+		public function startNode(string $tag, array $attrs): void
 		{
 			if ($this->domRules->canBeParent($tag)) {
 				$this->addParentNode($tag, $attrs);
@@ -93,7 +99,10 @@
 		}
 
 
-		private function addParentNode(string $tag, string $attrs): void
+		/**
+		 * @param  array<string, scalar|NULL> $attrs
+		 */
+		private function addParentNode(string $tag, array $attrs): void
 		{
 			if (!$this->isElementAllowed($tag)) {
 				return;
@@ -107,7 +116,10 @@
 		}
 
 
-		private function addVoidNode(string $tag, string $attrs): void
+		/**
+		 * @param  array<string, scalar|NULL> $attrs
+		 */
+		private function addVoidNode(string $tag, array $attrs): void
 		{
 			if (!$this->isElementAllowed($tag)) {
 				return;
@@ -135,9 +147,12 @@
 		}
 
 
-		private function createElement(string $tag, string $attrs): Html
+		/**
+		 * @param  array<string, scalar|NULL> $attrs
+		 */
+		private function createElement(string $tag, array $attrs): Html
 		{
-			return Html::el(strtolower($tag) . ' ' . $attrs);
+			return Html::el(strtolower($tag), $attrs);
 		}
 
 

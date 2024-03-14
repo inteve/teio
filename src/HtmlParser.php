@@ -87,10 +87,10 @@
 
 					} else {
 						if ($isEmpty) {
-							$domBuilder->addEmptyNode($mTag, $mAttr);
+							$domBuilder->addEmptyNode($mTag, $this->parseAttributes($mAttr));
 
 						} else {
-							$domBuilder->startNode($mTag, $mAttr);
+							$domBuilder->startNode($mTag, $this->parseAttributes($mAttr));
 						}
 					}
 
@@ -157,5 +157,20 @@
 			});
 
 			return $matches;
+		}
+
+
+		/**
+		 * @return array<string, scalar|NULL> $attributes
+		 */
+		private function parseAttributes(string $attributes): array
+		{
+			$res = [];
+
+			foreach (Strings::matchAll($attributes . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\2|\s))?#i') as $m) {
+				$res[(string) $m[1]] = isset($m[3]) ? html_entity_decode($m[3]) : TRUE;
+			}
+
+			return $res;
 		}
 	}
