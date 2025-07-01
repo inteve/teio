@@ -18,7 +18,7 @@ Powerful HTML processor.
 composer require teio/teio
 ```
 
-Inteve\Teio requires PHP 7.4.0 or newer.
+Inteve\Teio requires PHP 8.0 or newer.
 
 
 ## Usage
