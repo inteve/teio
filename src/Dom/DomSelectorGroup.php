@@ -78,7 +78,7 @@
 		}
 
 
-		private static function matchPart(DomSelectorGroupPart $selectorPart = NULL, SelectableNode $node = NULL): bool
+		private static function matchPart(?DomSelectorGroupPart $selectorPart, ?SelectableNode $node): bool
 		{
 			if ($selectorPart === NULL || $node === NULL) {
 				return FALSE;

@@ -17,7 +17,7 @@
 		private $position;
 
 
-		public function __construct(Html $node, DomPosition $position = NULL)
+		public function __construct(Html $node, ?DomPosition $position = NULL)
 		{
 			$this->node = $node;
 			$this->position = $position;

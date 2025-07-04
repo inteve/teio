@@ -39,7 +39,7 @@
 		/**
 		 * @param Html|string $node
 		 */
-		public function __construct($node, DomParentNodes $parents, DomPosition $position = NULL)
+		public function __construct($node, DomParentNodes $parents, ?DomPosition $position = NULL)
 		{
 			if ($node instanceof Html) {
 				$this->type = self::TYPE_HTML;
